@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.gmail.ak1cec0ld.plugins.PokemonIDs.AutoHouse.AutoHouseStorageManager;
+import com.gmail.ak1cec0ld.plugins.pokemonids.AutoHouse.AutoHouseStorageManager;
 
 public class QuickHomeCommand implements CommandExecutor{
     QuickHomeController controller;

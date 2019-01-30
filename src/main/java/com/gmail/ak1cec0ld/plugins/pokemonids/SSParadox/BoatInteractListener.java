@@ -22,26 +22,26 @@ import net.md_5.bungee.api.chat.*;
 public class BoatInteractListener implements Listener{
     
 
-    static TextComponent U = new TextComponent("�");  //the ss paradox, it changes position and hoverevent
-    static TextComponent x = new TextComponent("x");  //the player, it changes position
-    static TextComponent w = new TextComponent("_");  
-    static TextComponent I = new TextComponent("1");  
-    static TextComponent N = new TextComponent("N"); 
-    static TextComponent M = new TextComponent("M");  
-    static TextComponent m = new TextComponent("^");  
-    static TextComponent n = new TextComponent("-");  
-    static TextComponent z = new TextComponent("0");  
-    static TextComponent L = new TextComponent("L");  
-    static TextComponent O = new TextComponent("O");  
-    static TextComponent C = new TextComponent("C");  
-    static TextComponent S = new TextComponent("S");  
-    static TextComponent s = new TextComponent("S");  
-    static TextComponent V = new TextComponent("V");  
-    TreeMap<Long, Container> map = new TreeMap<Long, Container>();
-    List<List<BaseComponent>> Japan;
+    private static TextComponent U = new TextComponent("Û");  //the ss paradox, it changes position and hoverevent
+    private static TextComponent x = new TextComponent("x");  //the player, it changes position
+    private static TextComponent w = new TextComponent("_");
+    private static TextComponent I = new TextComponent("1");
+    private static TextComponent N = new TextComponent("N");
+    private static TextComponent M = new TextComponent("M");
+    private static TextComponent m = new TextComponent("^");
+    private static TextComponent n = new TextComponent("-");
+    private static TextComponent z = new TextComponent("0");
+    private static TextComponent L = new TextComponent("L");
+    private static TextComponent O = new TextComponent("O");
+    private static TextComponent C = new TextComponent("C");
+    private static TextComponent S = new TextComponent("S");
+    private static TextComponent s = new TextComponent("S");
+    private static TextComponent V = new TextComponent("V");
+    private TreeMap<Long, Container> map = new TreeMap<Long, Container>();
+    private List<List<BaseComponent>> Japan;
     
     
-    public BoatInteractListener(){
+    BoatInteractListener(){
         map.put(0L,     new Container(34,19, "En route: Vermilion"));
         map.put(130L,   new Container(34,19, "En route: Vermilion"));
         map.put(570L,   new Container(31,20, "En route: Vermilion"));
@@ -60,7 +60,7 @@ public class BoatInteractListener implements Listener{
         map.put(6550L,  new Container(11,20, "En route: Slateport"));
         map.put(6830L,  new Container(9 ,20, "En route: Slateport"));
         map.put(7110L,  new Container(6 ,21, "En route: Slateport"));
-        map.put(7390l,  new Container(7 ,22, "Slateport City"));
+        map.put(7390L,  new Container(7 ,22, "Slateport City"));
         map.put(8590L,  new Container(8 ,23, "En route: LilyCove"));
         map.put(9395L,  new Container(9 ,24, "Lilycove City"));
         map.put(10595L, new Container(8 ,23, "En route: Canalave"));
@@ -84,7 +84,7 @@ public class BoatInteractListener implements Listener{
         map.put(21930L, new Container(41,8 , "En route: Vermilion"));
         map.put(22370L, new Container(39,12, "En route: Vermilion"));
         map.put(22810L, new Container(38,14, "En route: Vermilion"));
-        map.put(23250l, new Container(37,16, "En route: Vermilion"));
+        map.put(23250L, new Container(37,16, "En route: Vermilion"));
         map.put(23690L, new Container(36,18, "En route: Vermilion"));
         
         initializeMarkers();
@@ -114,32 +114,33 @@ public class BoatInteractListener implements Listener{
     }
     
     private void initializeJapan() {
-        ArrayList<BaseComponent> row0 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,s,w,w,w,w,w,w,m,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row1 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,M,M,M,N,w,w,w,w,M,M,M,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row2 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,C,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row3 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,M,M,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row4 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,I,w,w,w,w,N,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row5 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row6 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row7 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row8 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> row9 = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowa = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowb = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowc = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowd = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowe = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,w,N,M,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowf = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowg = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowh = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,w,w,w,N,M,M,M,M,M,M,M,M,N,N,V,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowi = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,N,N,M,M,M,M,N,M,N,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowj = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,M,M,M,N,M,M,N,O,N,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowk = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,N,N,M,M,w,w,w,w,w,w,w,M,w,w,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowl = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,S,N,N,M,M,w,w,N,z,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowm = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,N,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rown = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,I,w,L,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        ArrayList<BaseComponent> rowo = new ArrayList<>(Arrays.asList(w,w,w,w,w,w,I,n,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w));
-        Japan = new ArrayList<>(Arrays.asList(row0,row1,row2,row3,row4,row5,row6,row7,row8,row9,rowa,rowb,rowc,rowd,rowe,rowf,rowg,rowh,rowi,rowj,rowk,rowl,rowm,rown,rowo));
+        Japan = new ArrayList<List<BaseComponent>>(Arrays.asList(
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,s,w,w,w,w,w,w,m,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,M,M,M,N,w,w,w,w,M,M,M,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,C,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,M,M,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,I,w,w,w,w,N,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,w,N,M,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,w,w,w,N,M,M,M,M,M,M,M,M,N,N,V,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,N,N,M,M,M,M,N,M,N,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,M,M,M,N,M,M,N,O,N,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,N,N,M,M,w,w,w,w,w,w,w,M,w,w,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,S,N,N,M,M,w,w,N,z,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,N,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,I,w,L,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,I,n,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w))
+        ));
     }
 
     @EventHandler
@@ -156,11 +157,12 @@ public class BoatInteractListener implements Listener{
         processEvent(event);
     }
     
-    public void processEvent(PlayerInteractEvent event){
+    private void processEvent(PlayerInteractEvent event){
         Player player = event.getPlayer();
         long currentTime = Bukkit.getWorld("Japan").getTime();
         Container c = mappedValue(map,currentTime);
         initializeJapan();
+        if (c == null) return;
         placeBoatOnJapan(c);  //the boat overwrites the player if it is where they are
         sendEditedMap(player);
     }
@@ -171,8 +173,8 @@ public class BoatInteractListener implements Listener{
     }
     
     private void sendEditedMap(Player player){
-        for(int eachRow = 0; eachRow < Japan.size(); eachRow++){
-            player.spigot().sendMessage(BaseComponentFromArrayList(Japan.get(eachRow)));
+        for (List<BaseComponent> baseComponents : Japan) {
+            player.spigot().sendMessage(BaseComponentFromArrayList(baseComponents));
         }
     }
     
@@ -184,7 +186,7 @@ public class BoatInteractListener implements Listener{
         return store;
     }
     
-    private static <K, V> Container mappedValue(TreeMap<Long, Container> map2, long currentTime){
+    private static Container mappedValue(TreeMap<Long, Container> map2, long currentTime){
         Entry<Long, Container> e = map2.floorEntry(currentTime);
         if(e!=null && e.getValue()==null){
             e = map2.lowerEntry(currentTime);
@@ -193,10 +195,10 @@ public class BoatInteractListener implements Listener{
     }
     
     private class Container{
-        public int col, row;
-        public String hoverText;
+        int col, row;
+        String hoverText;
         
-        public Container(int column, int row, String hoverText){
+        Container(int column, int row, String hoverText){
             this.col = column;
             this.row = row;
             this.hoverText = hoverText;

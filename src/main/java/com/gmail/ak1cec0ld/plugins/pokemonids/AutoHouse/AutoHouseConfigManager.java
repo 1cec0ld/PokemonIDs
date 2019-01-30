@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.gmail.ak1cec0ld.plugins.PokemonIDs.CustomYMLStorage;
+import com.gmail.ak1cec0ld.plugins.pokemonids.CustomYMLStorage;
 
 public class AutoHouseConfigManager {
     private CustomYMLStorage yml;

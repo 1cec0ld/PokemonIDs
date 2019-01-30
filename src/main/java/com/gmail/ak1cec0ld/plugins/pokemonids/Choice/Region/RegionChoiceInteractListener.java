@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import com.gmail.ak1cec0ld.plugins.pokemonids.Choice.ChoiceController;
-import com.gmail.ak1cec0ld.plugins.PokemonIDs.Teleports.SpawnCommandManager;
+import com.gmail.ak1cec0ld.plugins.pokemonids.Teleports.SpawnCommandManager;
 
 public class RegionChoiceInteractListener implements Listener{
     ChoiceController controller;

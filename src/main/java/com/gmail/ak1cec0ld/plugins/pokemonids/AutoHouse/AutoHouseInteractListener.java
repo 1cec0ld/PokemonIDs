@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.material.Directional;
 
-import com.gmail.ak1cec0ld.plugins.PokemonIDs.PokemonIDs;
+import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
 
 public class AutoHouseInteractListener implements Listener{
     private AutoHouseController controller;
