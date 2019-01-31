@@ -22,7 +22,7 @@ import net.md_5.bungee.api.chat.*;
 public class BoatInteractListener implements Listener{
     
 
-    private static TextComponent U = new TextComponent("Û");  //the ss paradox, it changes position and hoverevent
+    private static TextComponent U = new TextComponent("Ü");  //the ss paradox, it changes position and hoverevent
     private static TextComponent x = new TextComponent("x");  //the player, it changes position
     private static TextComponent w = new TextComponent("_");
     private static TextComponent I = new TextComponent("1");
@@ -37,7 +37,7 @@ public class BoatInteractListener implements Listener{
     private static TextComponent S = new TextComponent("S");
     private static TextComponent s = new TextComponent("S");
     private static TextComponent V = new TextComponent("V");
-    private TreeMap<Long, Container> map = new TreeMap<Long, Container>();
+    private TreeMap<Long, Container> map = new TreeMap<>();
     private List<List<BaseComponent>> Japan;
     
     
@@ -114,32 +114,32 @@ public class BoatInteractListener implements Listener{
     }
     
     private void initializeJapan() {
-        Japan = new ArrayList<List<BaseComponent>>(Arrays.asList(
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,s,w,w,w,w,w,w,m,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,M,M,M,N,w,w,w,w,M,M,M,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,C,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,M,M,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,I,w,w,w,w,N,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,w,N,M,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,w,w,w,N,M,M,M,M,M,M,M,M,N,N,V,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,N,N,M,M,M,M,N,M,N,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,M,M,M,N,M,M,N,O,N,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,N,N,M,M,w,w,w,w,w,w,w,M,w,w,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,S,N,N,M,M,w,w,N,z,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,w,w,N,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,I,w,L,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
-            new ArrayList<BaseComponent>(Arrays.asList(w,w,w,w,w,w,I,n,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w))
+        Japan = new ArrayList<>(Arrays.asList(
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,s,w,w,w,w,w,w,m,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,M,M,M,N,w,w,w,w,M,M,M,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,C,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,M,M,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,I,w,w,w,w,N,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,w,N,M,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,M,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,M,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,w,w,N,N,w,w,w,N,M,M,M,M,M,M,M,M,N,N,V,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,w,N,M,M,M,M,M,N,N,M,M,M,M,N,M,N,N,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,w,w,w,M,M,M,N,M,M,N,O,N,M,M,M,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,N,N,M,M,w,w,w,w,w,w,w,M,w,w,M,M,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,S,N,N,M,M,w,w,N,z,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,w,w,N,M,M,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,I,w,L,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w)),
+            new ArrayList<>(Arrays.asList(w,w,w,w,w,w,I,n,N,N,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w))
         ));
     }
 
@@ -151,7 +151,7 @@ public class BoatInteractListener implements Listener{
         ItemStack item = event.getItem();
         if(!item.hasItemMeta())return;
         if(!item.getItemMeta().hasLore())return;
-        if(!item.getItemMeta().getLore().get(0).equalsIgnoreCase("�7Permits Entry to the SS Paradox"))
+        if(!item.getItemMeta().getLore().get(0).equalsIgnoreCase("§7Permits Entry to the SS Paradox"))
         if(!item.getType().equals(Material.PAPER))return;
         
         processEvent(event);
@@ -188,7 +188,7 @@ public class BoatInteractListener implements Listener{
     
     private static Container mappedValue(TreeMap<Long, Container> map2, long currentTime){
         Entry<Long, Container> e = map2.floorEntry(currentTime);
-        if(e!=null && e.getValue()==null){
+        if(e!=null){
             e = map2.lowerEntry(currentTime);
         }
         return e == null ? null : e.getValue();

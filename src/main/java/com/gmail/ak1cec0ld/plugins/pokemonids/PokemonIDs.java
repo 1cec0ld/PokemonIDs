@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 import com.sk89q.squirrelid.Profile;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -109,10 +110,12 @@ public class PokemonIDs extends JavaPlugin{
     }
     
     public boolean inRegionChild(Location loc, String regionName){
-        RegionManager getRM = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(loc.getWorld()));
-        HashSet<ProtectedRegion> store = new HashSet<ProtectedRegion>();
+        RegionContainer getRC = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        HashSet<ProtectedRegion> store = new HashSet<>();
         ApplicableRegionSet set = null;
-        if (getRM != null) set = getRM.getApplicableRegions(BukkitAdapter.asBlockVector(loc));
+        if (getRC != null) {
+            set =  getRC.createQuery().getApplicableRegions(BukkitAdapter.adapt(loc));
+        }
         if (set != null) {
             for(ProtectedRegion region : set){
                 store.add(region);

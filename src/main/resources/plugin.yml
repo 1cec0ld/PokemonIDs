@@ -1,4 +1,4 @@
-main: com.gmail.ak1cec0ld.plugins.PokemonIDs.PokemonIDs
+main: com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs
 name: PokemonIDs
 api-version: 1.13
 version: 2.0.0

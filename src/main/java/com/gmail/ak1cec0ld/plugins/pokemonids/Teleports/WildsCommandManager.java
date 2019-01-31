@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -14,12 +15,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static java.lang.Math.floor;
+
 public class WildsCommandManager implements CommandExecutor {
     private Random r = new Random();
     
-    final double STARTING_WILD_RADIUS = 2500;
-    final double WILD_OFFSET = 150000;
-    
+    private final double STARTING_WILD_RADIUS = 2500;
+    private final double WILD_OFFSET = 150000;
+
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -42,7 +45,7 @@ public class WildsCommandManager implements CommandExecutor {
                 sender.sendMessage("The console can't go to the wild ya fool.");
             }
         } else {
-            sender.sendMessage("�cJust type /wild");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&cJust type /wild"));
         }
         return false;
     }
@@ -55,8 +58,8 @@ public class WildsCommandManager implements CommandExecutor {
         Location l2 = new Location(Bukkit.getWorld("Wild"), x2, 256, z2);
         while (attempts < 10) {
             attempts++;
-            x2 = Math.floor(x+r.nextInt(11)-5)+0.5;
-            z2 = Math.floor(z+r.nextInt(11)-5)+0.5;
+            x2 = WILD_OFFSET+floor(x+r.nextInt(11)-5);
+            z2 = WILD_OFFSET+floor(z+r.nextInt(11)-5);
             l = new Location(Bukkit.getWorld("Wild"), x2, 256, z2);
             l2 = l.getWorld().getHighestBlockAt(l).getLocation();
             if(isSafe(l2.getBlock().getRelative(BlockFace.DOWN).getType())){

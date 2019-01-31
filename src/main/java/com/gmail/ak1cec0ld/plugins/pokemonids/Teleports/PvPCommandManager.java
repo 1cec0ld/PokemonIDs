@@ -3,6 +3,7 @@ package com.gmail.ak1cec0ld.plugins.pokemonids.Teleports;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -15,8 +16,9 @@ public class PvPCommandManager implements CommandExecutor {
 
     private static Location pvpzone = new Location(Bukkit.getWorld("Wild"),0.5,0.1,0.5,0.0F,0.0F);
     private Random r = new Random();
+    private int WILD_OFFSET = 150000;
     
-    public PvPCommandManager(TeleportsController controller){
+    PvPCommandManager(TeleportsController controller){
         controller.getPlugin().getCommand("pvp").setExecutor(this);
     }
 
@@ -30,21 +32,21 @@ public class PvPCommandManager implements CommandExecutor {
                 sender.sendMessage("The console can't pvp ya fool.");
             }
         } else {
-            sender.sendMessage("�cNope. Just type /pvp");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNope. Just type /pvp"));
         }
         return false;
     }
     
     private Location getPvpLoc(Location loc) {
         int attempts = 0;
-        double x2 = 0;
-        double z2 = 0;
+        double x2 = WILD_OFFSET;
+        double z2 = WILD_OFFSET;
         Location l;
-        Location l2 = new Location(Bukkit.getWorld("Wild"), x2, 256, z2);;
+        Location l2 = new Location(Bukkit.getWorld("Wild"), x2, 256, z2);
         while (attempts < 10) {
             attempts++;
-            x2 = Math.floor(loc.getX()+r.nextInt(41)-20)+0.5;
-            z2 = Math.floor(loc.getZ()+r.nextInt(41)-20)+0.5;
+            x2 = WILD_OFFSET+Math.floor(loc.getX()+r.nextInt(41)-20);
+            z2 = WILD_OFFSET+Math.floor(loc.getZ()+r.nextInt(41)-20);
             l = new Location(Bukkit.getWorld("Wild"), x2, 256, z2);
             l2 = l.getWorld().getHighestBlockAt(l).getLocation();
             if(isSafe(l2.getBlock().getRelative(BlockFace.DOWN).getType())){

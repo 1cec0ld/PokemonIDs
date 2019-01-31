@@ -1,6 +1,8 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Cut;
 
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -11,26 +13,28 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static org.bukkit.event.EventPriority.HIGH;
+
 public class CutInteractListener implements Listener{
     private CutController controller;
-    
     public CutInteractListener(CutController ctrl){
         this.controller = ctrl;
     }
     
     
-    @EventHandler
+    @EventHandler(priority = HIGH)
     public void onInteractWithBlock(PlayerInteractEvent event){
         if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
             Block hitblock = event.getClickedBlock();
             if(hitblock.getType().equals(Material.DARK_OAK_LOG)||hitblock.getType().equals(Material.DARK_OAK_LEAVES)){
                 int id = getIdentifierY(hitblock);
                 if(id >= 0){
+                    event.setCancelled(true);
                     if(controller.permissionToBreak(event.getPlayer())){
-                        event.getPlayer().sendMessage(ChatColor.DARK_GREEN+"You CUT the tree down!");
+                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("You CUT the tree down!").color(ChatColor.DARK_GREEN).create());
                         cutTree(hitblock,id);
                     } else {
-                        event.getPlayer().sendMessage(ChatColor.RED+"This tree looks like it can be CUT down!");
+                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("This tree looks like it can be CUT down!").color(ChatColor.RED).create());
                     }
                 }
             }
@@ -63,14 +67,12 @@ public class CutInteractListener implements Listener{
             setLayer(world,minx,y,minz,Material.AIR);
         }
         
-        controller.getPlugin().getServer().getScheduler().runTaskLater(controller.getPlugin(), new Runnable(){
-            @Override
-            public void run() {
-                setLayer(world,minx,identifier+0,minz,Material.END_PORTAL_FRAME);
-                setLayer(world,minx,identifier+1,minz,Material.DARK_OAK_LOG);
-                setLayer(world,minx,identifier+2,minz,Material.DARK_OAK_LOG);
-                setLayer(world,minx,identifier+3,minz,Material.DARK_OAK_LEAVES);
-            }}, 100L);
+        controller.getPlugin().getServer().getScheduler().runTaskLater(controller.getPlugin(), () -> {
+            setLayer(world,minx,identifier+0,minz,Material.END_PORTAL_FRAME);
+            setLayer(world,minx,identifier+1,minz,Material.DARK_OAK_LOG);
+            setLayer(world,minx,identifier+2,minz,Material.DARK_OAK_LOG);
+            setLayer(world,minx,identifier+3,minz,Material.DARK_OAK_LEAVES);
+        }, 100L);
     }
 
     private int getIdentifierY(Block hitblock){
