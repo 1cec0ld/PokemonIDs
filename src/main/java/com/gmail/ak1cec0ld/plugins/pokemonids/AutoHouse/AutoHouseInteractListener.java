@@ -53,7 +53,7 @@ public class AutoHouseInteractListener implements Listener{
         String interact_block_line_4 = interact_block.getLine(3);
         String housename = interact_block_line_3+interact_block_line_4;
         
-        if (interact_block_line_1.equals("§a[For Sale]")){
+        if (interact_block_line_1.equals(ChatColor.COLOR_CHAR+"a[For Sale]")){
             int line_2 = 1000000;
             try{
                 line_2 = Integer.parseInt(interact_block_line_2);
@@ -71,7 +71,7 @@ public class AutoHouseInteractListener implements Listener{
             } else {
                 attemptHousePurchase(interact_block,player,line_2);
             }
-        } else if (interact_block_line_1.equals("§1OWNED BY:")){
+        } else if (interact_block_line_1.equals(ChatColor.COLOR_CHAR+"1OWNED BY:")){
             if(player.isSneaking() && (interact_block_line_2.equals(player.getName()) || player.hasPermission("worldguard.region"))){
                 activateHouseRemoval(interact_block, player);
             } else if(interact_block_line_2.equals(player.getName())){
@@ -110,7 +110,7 @@ public class AutoHouseInteractListener implements Listener{
         nextSign.setType(Material.WALL_SIGN);
         nextSign.setBlockData(interact_block.getBlockData());
         Sign s = (Sign) nextSign.getState();
-        s.setLine(0, "�a[For Sale]");
+        s.setLine(0, ChatColor.COLOR_CHAR+"a[For Sale]");
         s.setLine(1, Integer.toString(controller.getPrice(AutoHouseStorageManager.getHouseSize(interact_block.getLine(2)+interact_block.getLine(3)))));
         s.setLine(2, interact_block.getLine(3));
         s.setLine(3, interact_block.getLine(4));
@@ -146,7 +146,7 @@ public class AutoHouseInteractListener implements Listener{
         OwnerType owner = getOwnerType(interact_block);
         Bukkit.getLogger().info(owner.toString());
         if (owner == OwnerType.SOLO_OWNER){
-            interact_block.setLine(0, "�a[For Sale]");
+            interact_block.setLine(0, ChatColor.COLOR_CHAR+"a[For Sale]");
             interact_block.setLine(1, Integer.toString(controller.getPrice(AutoHouseStorageManager.getHouseSize(housename))));
             interact_block.update(true);
         } else if(owner == OwnerType.PRIMARY_OWNER){
@@ -178,35 +178,27 @@ public class AutoHouseInteractListener implements Listener{
         BlockFace direction = ((Directional)interact_block.getData()).getFacing();
         if(direction.equals(BlockFace.NORTH)){ //northfacing, coowner sign is x-1
             if(interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getType().equals(Material.WALL_SIGN)){
-                Location[] offsets = {interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getLocation(),interact_block.getLocation()};
-                return offsets;
+                return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getLocation(),interact_block.getLocation()};
             } else {
-                Location[] offsets = {interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getLocation()};
-                return offsets;
+                return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getLocation()};
             }
         } else if(direction.equals(BlockFace.SOUTH)){ //southfacing, coowner sign is x+1
             if(interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getType().equals(Material.WALL_SIGN)){
-                Location[] offsets = {interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getLocation(),interact_block.getLocation()};
-                return offsets;
+                return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getLocation(),interact_block.getLocation()};
             } else {
-                Location[] offsets = {interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getLocation()};
-                return offsets;
+                return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getLocation()};
             }
         } else if(direction.equals(BlockFace.WEST)){ //westfacing, coowner sign is z+1
             if(interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getType().equals(Material.WALL_SIGN)){
-                Location[] offsets = {interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getLocation(),interact_block.getLocation()};
-                return offsets;
+                return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getLocation(),interact_block.getLocation()};
             } else {
-                Location[] offsets = {interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getLocation()};
-                return offsets;
+                return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getLocation()};
             }
         } else if(direction.equals(BlockFace.EAST)){ //eastfacing, coowner sign is z-1
             if(interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getType().equals(Material.WALL_SIGN)){
-                Location[] offsets = {interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getLocation(),interact_block.getLocation()};
-                return offsets;
+                return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getLocation(),interact_block.getLocation()};
             } else {
-                Location[] offsets = {interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getLocation()};
-                return offsets;
+                return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getLocation()};
             }
         }
         return null;
@@ -222,11 +214,11 @@ public class AutoHouseInteractListener implements Listener{
                 plugin.getEconomy().withdrawPlayer(player, cost);
                 controller.getStorageManager().addHouseOwner(housename, uuid);
                 plugin.getPlayerStorageManager().setHouse(housename,uuid);
-                interact_block.setLine(0, "�1OWNED BY:");
+                interact_block.setLine(0, ChatColor.COLOR_CHAR+"1OWNED BY:");
                 interact_block.setLine(1, player.getName());
                 interact_block.update();
                 plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "rg addowner -w "+player.getWorld().getName()+" "+housename+" "+player.getName());
-                player.sendMessage("�eHouse bought! New balance: �a"+plugin.getEconomy().getBalance(player));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&eHouse bought! New balance: &a"+plugin.getEconomy().getBalance(player)));
             } else {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNot enough money! You have &4$"+plugin.getEconomy().getBalance(player)+"/&2$"+cost+"!"));
             }

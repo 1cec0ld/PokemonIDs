@@ -2,6 +2,7 @@ package com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Fly;
 
 import java.util.HashSet;
 
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -14,17 +15,14 @@ import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class FlyController {
     private PokemonIDs plugin;
     private FlyStorageManager flyStrMan;
-    //private Scoreboard scr;
     
     public FlyController(PokemonIDs plugin){
         this.plugin = plugin;
-        //scr = Bukkit.getScoreboardManager().getMainScoreboard();
         
         plugin.getServer().getPluginCommand("fly").setExecutor(new FlyCommandManager(this));
         flyStrMan = new FlyStorageManager(plugin);
@@ -43,8 +41,8 @@ public class FlyController {
     }
     
     public String getParentRegion(Location loc){
-        RegionManager getRM = WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(loc.getWorld()));
-        ApplicableRegionSet playerRegions = getRM.getApplicableRegions(BukkitAdapter.asBlockVector(loc));
+        RegionContainer getRC = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        ApplicableRegionSet playerRegions = getRC.createQuery().getApplicableRegions(BukkitAdapter.adapt(loc));
         HashSet<ProtectedRegion> rTree = getRegionTree(playerRegions); 
         for(ProtectedRegion r : rTree){
             if(getStorageManager().getRegions().contains(r.getId())){
@@ -55,7 +53,7 @@ public class FlyController {
     }
     
     private HashSet<ProtectedRegion> getRegionTree(ApplicableRegionSet playerRegions) {
-        HashSet<ProtectedRegion> store = new HashSet<ProtectedRegion>();
+        HashSet<ProtectedRegion> store = new HashSet<>();
         for(ProtectedRegion reg : playerRegions){
             store.add(reg);
             ProtectedRegion regCopy = reg;
@@ -68,20 +66,6 @@ public class FlyController {
     }
     
     public boolean playerHasFlyPoint(Player player, String flypoint){
-        /*if(scr != null){
-            for(String ent : scr.getEntries()){
-                Bukkit.getLogger().info(ent);
-            }
-            if(scr.getObjective("fly_"+flypoint)!= null){
-                if(scr.getObjective("fly_"+flypoint).getScore(player.getUniqueId().toString())!= null){
-                    //Bukkit.getLogger().info("fly_" + flypoint + " " + scr.getObjective("fly_"+flypoint).getScore(player.getName()).getScore());
-                    return scr.getObjective("fly_"+flypoint).getScore(player.getName()).getScore() > 0;
-                } else {
-                    Bukkit.getLogger().severe("getScore is null");
-                }
-            } else {
-                Bukkit.getLogger().severe("getObjective fly_"+flypoint+ " is null");
-            }*/
         Advancement a = getAdvancement(flypoint);
         if(a != null){
             AdvancementProgress avp = player.getAdvancementProgress(a);
@@ -92,31 +76,6 @@ public class FlyController {
             Bukkit.getLogger().info("Someone tried to Fly to "+flypoint+" but advancement was null");
         }
         return false;
-        /*Advancement ach = null;
-        Advancement adv = null;
-        for(Iterator<Advancement> iter = Bukkit.getServer().advancementIterator(); iter.hasNext();){
-            adv = iter.next();
-            Bukkit.getLogger().info(adv.getKey().getNamespace());
-            if(adv.getKey().getKey().equalsIgnoreCase(flypoint)){
-                ach = adv;
-                break;
-            }
-        }
-        if(ach == null){
-            return false;
-        }
-        AdvancementProgress p = player.getAdvancementProgress(ach);
-
-        return p.isDone();*/
-    }
-    
-    public boolean playerHasAllPoints(Player player, String regionname){
-        for(String cityname : getStorageManager().getPoints(regionname)){
-            if(!playerHasFlyPoint(player, cityname)){
-                return false;
-            }
-        }
-        return true;
     }
 
     private Advancement getAdvancement(String flypoint){
