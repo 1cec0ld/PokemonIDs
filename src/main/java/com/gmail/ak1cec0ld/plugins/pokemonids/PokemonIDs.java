@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.UUID;
 
-import com.sk89q.squirrelid.Profile;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.util.profile.Profile;
+import com.sk89q.worldguard.util.profile.resolver.HttpRepositoryService;
+import com.sk89q.worldguard.util.profile.resolver.ProfileService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -31,11 +33,8 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
-import com.sk89q.squirrelid.resolver.HttpRepositoryService;
-import com.sk89q.squirrelid.resolver.ProfileService;
 import net.milkbowl.vault.economy.Economy;
 
 public class PokemonIDs extends JavaPlugin{
@@ -151,9 +150,7 @@ public class PokemonIDs extends JavaPlugin{
                 UUID uuid = profile.getUniqueId();
                 return Bukkit.getOfflinePlayer(uuid);
             }
-        } catch (IOException e) {
-            return null;
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             return null;
         }
         return null;
