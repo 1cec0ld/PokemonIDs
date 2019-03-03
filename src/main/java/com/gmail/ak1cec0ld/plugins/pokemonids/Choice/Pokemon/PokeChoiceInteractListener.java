@@ -182,11 +182,11 @@ public class PokeChoiceInteractListener implements Listener{
                 //Bukkit.getLogger().info("Found a sign");
                 Sign blocksign = (Sign)bs;
                 String interact_block_line_1 = blocksign.getLine(0);
-                if(interact_block_line_1.equalsIgnoreCase("�2[Sword]")){
+                if(interact_block_line_1.equalsIgnoreCase(ChatColor.COLOR_CHAR+"2[Sword]")){
                     return 1;
-                } else if( interact_block_line_1.equalsIgnoreCase("�2[Axe]")){
+                } else if( interact_block_line_1.equalsIgnoreCase(ChatColor.COLOR_CHAR+"2[Axe]")){
                     return 0;
-                } else if(interact_block_line_1.equalsIgnoreCase("�2[Bow]")){
+                } else if(interact_block_line_1.equalsIgnoreCase(ChatColor.COLOR_CHAR+"2[Bow]")){
                     return 2;
                 }
             }

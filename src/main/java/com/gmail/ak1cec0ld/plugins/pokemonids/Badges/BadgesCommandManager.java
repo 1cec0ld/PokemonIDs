@@ -177,7 +177,7 @@ public class BadgesCommandManager implements CommandExecutor{
                 sender.sendMessage(ChatColor.GREEN+"Congrats, you gave a badge away!");
                 target.sendMessage(ChatColor.YELLOW+"Congrats you got a badge!");
             } else {
-                sender.sendMessage(ChatColor.RED+"The player already "+cityname+" badge!");
+                sender.sendMessage(ChatColor.RED+"The player already has the "+cityname+" badge!");
             }
         }
     }

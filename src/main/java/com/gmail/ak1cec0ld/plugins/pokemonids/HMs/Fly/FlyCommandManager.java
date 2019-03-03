@@ -12,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class FlyCommandManager implements CommandExecutor{
     FlyController manager;
     
@@ -23,11 +25,11 @@ public class FlyCommandManager implements CommandExecutor{
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(label.equalsIgnoreCase("fly")){
             if(args.length == 0){
-                sender.sendMessage("�bFly Plugin, subsection of PokemonIDs, version 1.0");
-                sender.sendMessage("�aVisit cities and Pokemon Centers, clicking the FLY signs as you go.");
-                sender.sendMessage("�aIf you're still in that Pokemon region, you can Fly back later!");
-                sender.sendMessage("�6Just make sure there's nothing above your head, or you might smack it!");
-                sender.sendMessage("�6  /fly {location}");
+                sender.sendMessage(ChatColor.COLOR_CHAR+"bFly Plugin, subsection of PokemonIDs, version 1.0");
+                sender.sendMessage(ChatColor.COLOR_CHAR+"aVisit cities and Pokemon Centers, clicking the FLY signs as you go.");
+                sender.sendMessage(ChatColor.COLOR_CHAR+"aIf you're still in that Pokemon region, you can Fly back later!");
+                sender.sendMessage(ChatColor.COLOR_CHAR+"6Just make sure there's nothing above your head, or you might smack it!");
+                sender.sendMessage(ChatColor.COLOR_CHAR+"6  /fly {location}");
             } else if(sender instanceof Player && args.length == 1){
                 Player player = (Player)sender;
                 if(exposedToSky(player)){
@@ -35,19 +37,19 @@ public class FlyCommandManager implements CommandExecutor{
                         if(playerInFlypointRegion(player,args[0]) || playerHasAllFlyPoints(player)){
                             fly(player,args[0]);
                         } else {
-                            player.sendMessage("�cYou don't appear to be in "+manager.getStorageManager().getParentOfFlyPoint(args[0]));
+                            player.sendMessage(ChatColor.COLOR_CHAR+"cYou don't appear to be in "+manager.getStorageManager().getParentOfFlyPoint(args[0]));
                         }
                     }else if(manager.getStorageManager().getRegions().contains(manager.getParentRegion(player.getLocation()))){
                         for(String city : manager.getStorageManager().getPoints(manager.getParentRegion(player.getLocation()))){
-                            //player.sendMessage((manager.playerHasFlyPoint(player, city)?"�2":"�c")+city);
-                            String first = "{\"text\":\"�6- "+(manager.playerHasFlyPoint(player, city)?"�a":"�c")+city+"\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":";
-                            String hoverEvent = (manager.playerHasFlyPoint(player, city)?"\"�aClick to fly to "+city+"\"}":"\"�cVisit "+city+" to enable flying here\"}");
+
+                            String first = "{\"text\":\""+ChatColor.COLOR_CHAR+"6- "+(manager.playerHasFlyPoint(player, city)?ChatColor.COLOR_CHAR+"a":ChatColor.COLOR_CHAR+"c")+city+"\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":";
+                            String hoverEvent = (manager.playerHasFlyPoint(player, city)?ChatColor.COLOR_CHAR+"aClick to fly to "+city+"\"}":ChatColor.COLOR_CHAR+"cVisit "+city+" to enable flying here\"}");
                             String clickEvent = (manager.playerHasFlyPoint(player, city)?",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/fly "+city+"\"}}":"}");
 
                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + first + hoverEvent + clickEvent );
                         }
                     } else {
-                        sender.sendMessage("�cYou haven't been to "+args[0]+" yet! Visit there first!");
+                        sender.sendMessage(ChatColor.COLOR_CHAR+"cYou haven't been to "+args[0]+" yet! Visit there first!");
                     }
                 } else {
                     Location loc = player.getLocation();
@@ -82,6 +84,7 @@ public class FlyCommandManager implements CommandExecutor{
     }
 
     private void fly(Player player, String flypoint){
+        player.teleport(player);
         manager.getPlugin().getServer().dispatchCommand(manager.getPlugin().getServer().getConsoleSender(), "warp "+flypoint.toLowerCase()+" "+player.getName());
     }
 
