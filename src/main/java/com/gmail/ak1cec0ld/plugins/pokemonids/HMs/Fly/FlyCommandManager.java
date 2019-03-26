@@ -1,8 +1,6 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Fly;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,7 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import net.md_5.bungee.api.ChatColor;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class FlyCommandManager implements CommandExecutor{
     FlyController manager;
@@ -40,14 +39,7 @@ public class FlyCommandManager implements CommandExecutor{
                             player.sendMessage(ChatColor.COLOR_CHAR+"cYou don't appear to be in "+manager.getStorageManager().getParentOfFlyPoint(args[0]));
                         }
                     }else if(manager.getStorageManager().getRegions().contains(manager.getParentRegion(player.getLocation()))){
-                        for(String city : manager.getStorageManager().getPoints(manager.getParentRegion(player.getLocation()))){
-
-                            String first = "{\"text\":\""+ChatColor.COLOR_CHAR+"6- "+(manager.playerHasFlyPoint(player, city)?ChatColor.COLOR_CHAR+"a":ChatColor.COLOR_CHAR+"c")+city+"\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":";
-                            String hoverEvent = (manager.playerHasFlyPoint(player, city)?ChatColor.COLOR_CHAR+"aClick to fly to "+city+"\"}":ChatColor.COLOR_CHAR+"cVisit "+city+" to enable flying here\"}");
-                            String clickEvent = (manager.playerHasFlyPoint(player, city)?",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/fly "+city+"\"}}":"}");
-
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + player.getName() + " " + first + hoverEvent + clickEvent );
-                        }
+                        messageAllFlyPoints(player);
                     } else {
                         sender.sendMessage(ChatColor.COLOR_CHAR+"cYou haven't been to "+args[0]+" yet! Visit there first!");
                     }
@@ -131,5 +123,17 @@ public class FlyCommandManager implements CommandExecutor{
             }
         }
         return true;
+    }
+
+    private void messageAllFlyPoints(Player target){
+        for(String city : manager.getStorageManager().getPoints(manager.getParentRegion(target.getLocation()))){
+
+            String first = "{\"text\":\""+ChatColor.COLOR_CHAR+"6- "+(manager.playerHasFlyPoint(target, city)?ChatColor.COLOR_CHAR+"a":ChatColor.COLOR_CHAR+"c")+city+"\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":";
+            String hoverEvent = (manager.playerHasFlyPoint(target, city) ? "\""+ChatColor.COLOR_CHAR+"aClick to fly to "+city+"\"}":"\""+ChatColor.COLOR_CHAR+"cVisit "+city+" to enable flying here\"}");
+            String clickEvent = (manager.playerHasFlyPoint(target, city) ? ",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/fly "+city+"\"}}":"}");
+
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + target.getName() + " " + first + hoverEvent + clickEvent );
+
+        }
     }
 }
