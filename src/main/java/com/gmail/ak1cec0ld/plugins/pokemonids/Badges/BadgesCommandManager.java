@@ -20,7 +20,8 @@ public class BadgesCommandManager implements CommandExecutor{
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String pokemonregion = "";
-        Player player = (sender instanceof Player)?(Player)sender:null;
+        Player player = (sender instanceof Player) ? (Player)sender : null;
+        if(player == null)return false;
         if(args.length == 0){
             help(player);
         } else if(args.length == 1){
@@ -41,7 +42,7 @@ public class BadgesCommandManager implements CommandExecutor{
                 } else {
                     return false;
                 }
-            } else if(player != null){
+            } else {
                 messageBadges(pokemonregion,player,player);
             }
         } else if(args.length == 2){
@@ -93,7 +94,7 @@ public class BadgesCommandManager implements CommandExecutor{
                     } else {help(player);}
                 }
             } else if (args[0].equalsIgnoreCase("takeall")){
-                if("kanto,johto,hoenn,sinnoh,unova".contains(args[2].toLowerCase())){
+                if("kanto,johto,hoenn,sinnoh,unova,kalos,alola,galar".contains(args[2].toLowerCase())){
                     Player target = controller.getPlugin().getPlayerFromString(args[1]);
                     if(target!=null){
                         for(String cityname : controller.getStorageManager().getAllCityNames()){
@@ -118,19 +119,19 @@ public class BadgesCommandManager implements CommandExecutor{
     }
 
     private void help(Player player) {
-        player.sendMessage("�6Badges �bv3.0 �dCommand Usage:");
-        player.sendMessage("�6/badges �c[Region] �6to check your Badges!");
-        player.sendMessage("�6/badges check �b[Player] �c[Region] �6to see player's badges!");
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6Badges &bv3.0 &dCommand Usage:"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6/badges &c[Region] &6to check your Badges!"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6/badges check &b[Player] &c[Region] &6to see player's badges!"));
         if(getCityFromLeader(player).length()>0){
-            player.sendMessage("�6/badges give �b[Player] �6to give a player's badges!");
-            player.sendMessage("�6/badges gym �6to return to your gym's city.");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6/badges give &b[Player] &6to give a player's badges!"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6/badges gym &6to return to your gym's city."));
         }
         if(player.hasPermission("badges.give")){
-            player.sendMessage("�6/badges give �b[Player] �c[City] �6to give a specific badge.");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6/badges give &b[Player] &c[City] &6to give a specific badge."));
         }
         if(player.hasPermission("badges.take")){
-            player.sendMessage("�6/badges take �b[Player] �c[City] �6to take a specific badge.");
-            player.sendMessage("�6/badges takeall �b[Player] �c[Region] �6to take region badges!");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6/badges take &b[Player] &c[City] &6to take a specific badge."));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&6/badges takeall &b[Player] &c[Region] &6to take region badges!"));
         }
     /*
      *

@@ -1,7 +1,11 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Fly;
 
-import java.util.HashSet;
-
+import com.gmail.ak1cec0ld.plugins.pokemonids.PlayerStorageManager;
+import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -10,12 +14,7 @@ import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
 
-import com.gmail.ak1cec0ld.plugins.pokemonids.PlayerStorageManager;
-import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import java.util.HashSet;
 
 public class FlyController {
     private PokemonIDs plugin;
@@ -40,7 +39,7 @@ public class FlyController {
         return this.plugin;
     }
     
-    public String getParentRegion(Location loc){
+    String getParentRegion(Location loc){
         RegionContainer getRC = WorldGuard.getInstance().getPlatform().getRegionContainer();
         ApplicableRegionSet playerRegions = getRC.createQuery().getApplicableRegions(BukkitAdapter.adapt(loc));
         HashSet<ProtectedRegion> rTree = getRegionTree(playerRegions); 
@@ -65,13 +64,11 @@ public class FlyController {
         return store;
     }
     
-    public boolean playerHasFlyPoint(Player player, String flypoint){
+    boolean playerHasFlyPoint(Player player, String flypoint){
         Advancement a = getAdvancement(flypoint);
         if(a != null){
             AdvancementProgress avp = player.getAdvancementProgress(a);
-            if(avp.isDone()){
-                return true;
-            }
+            return avp.isDone();
         } else {
             Bukkit.getLogger().info("Someone tried to Fly to "+flypoint+" but advancement was null");
         }
@@ -79,7 +76,7 @@ public class FlyController {
     }
 
     private Advancement getAdvancement(String flypoint){
-        String[] regions = new String[] {"kanto","johto","hoenn", "sinnoh", "unova", "kalos", "alola"};
+        String[] regions = new String[] {"kanto","johto","hoenn", "sinnoh", "unova", "kalos", "alola", "galar"};
         NamespacedKey nsk;
         for(String each : regions){
             nsk = new NamespacedKey(getPlugin(), "places/"+each+"/"+flypoint);

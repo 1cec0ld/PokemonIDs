@@ -1,8 +1,8 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.AutoHouse;
 
-import java.util.ArrayList;
-
 import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
+
+import java.util.ArrayList;
 
 public class AutoHouseController {
 
@@ -21,15 +21,15 @@ public class AutoHouseController {
         return this.plugin;
     }
     
-    public AutoHouseTaskManager getTaskManager(){
+    AutoHouseTaskManager getTaskManager(){
         return this.taskManager;
     }
     public AutoHouseStorageManager getStorageManager(){
         return this.storageManager;
     }
     
-    public int getPrice(int tiles){
-        ArrayList<Integer> configVals = AutoHouseConfigManager.getCoords();
+    int getPrice(int tiles){
+        ArrayList<Integer> configVals = AutoHouseConfigManager.getParabolaCoords();
         int x1 = configVals.get(0);
         int y1 = configVals.get(1);
         int x2 = configVals.get(2);
@@ -50,10 +50,11 @@ public class AutoHouseController {
         double b = (D1-A1*a)/B1;
         double c = y1-(a*x1*x1)-(b*x1);
         
-        return (int) (a*tiles*tiles + b*tiles + c);
+        return (int) ((a*tiles*tiles + b*tiles + c) * 1-(AutoHouseConfigManager.getBonusMultiplier()*AutoHouseConfigManager.getBonus()));
     }
-
+    /*
     public static void assignPlayerToHouse(String houseName, String playerName){
         return;
     }
+    */
 }

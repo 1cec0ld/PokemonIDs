@@ -1,7 +1,6 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.AutoHouse;
 
-import java.util.logging.Level;
-
+import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,43 +17,39 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.material.Directional;
 
-import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
-
 public class AutoHouseInteractListener implements Listener{
     private AutoHouseController controller;
-    private enum OwnerType {SOLO_OWNER, PRIMARY_OWNER, COOWNER};
+    private enum OwnerType {SOLO_OWNER, PRIMARY_OWNER, COOWNER}
     
-    public AutoHouseInteractListener(AutoHouseController controller){
+    AutoHouseInteractListener(AutoHouseController controller){
         this.controller = controller;
     }
     
+    /*
     public void log(String message){
         controller.getPlugin().getLogger().log(Level.INFO, message);
     }
-    
+    */
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
-        if(event.getHand()==null || !event.getHand().equals(EquipmentSlot.HAND) || event.getAction()==null || !event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            return;
-        }
+        if(event.getHand()==null || !event.getHand().equals(EquipmentSlot.HAND) || !event.getAction().equals(Action.RIGHT_CLICK_BLOCK))return;
         Player player = event.getPlayer();
         Block b = event.getClickedBlock();
+        if(b == null)return;
         BlockState bs = b.getState();
-        if (bs == null){
-            return;
-        }
-        if(!bs.getType().equals(Material.WALL_SIGN)){
-            return;
-        }
+        if(!bs.getType().equals(Material.WALL_SIGN))return;
         Sign interact_block = (Sign) bs;
         String interact_block_line_1 = interact_block.getLine(0);
         String interact_block_line_2 = interact_block.getLine(1);
         String interact_block_line_3 = interact_block.getLine(2);
         String interact_block_line_4 = interact_block.getLine(3);
         String housename = interact_block_line_3+interact_block_line_4;
-        
-        if (interact_block_line_1.equals(ChatColor.COLOR_CHAR+"a[For Sale]")){
-            int line_2 = 1000000;
+        if (interact_block_line_1.equals(ChatColor.COLOR_CHAR+"a[AddDonorBonus]")){
+            if(!player.isOp())return;
+            AutoHouseConfigManager.setBonus();
+        } else if (interact_block_line_1.equals(ChatColor.COLOR_CHAR+"a[For Sale]")){
+            int line_2;
             try{
                 line_2 = Integer.parseInt(interact_block_line_2);
             } catch(NumberFormatException e){
@@ -201,7 +196,7 @@ public class AutoHouseInteractListener implements Listener{
                 return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getLocation()};
             }
         }
-        return null;
+        return new Location[]{interact_block.getLocation(),interact_block.getLocation()};
     }
     private void attemptHousePurchase(Sign interact_block,Player player,int cost){
         PokemonIDs plugin = controller.getPlugin();
@@ -210,6 +205,13 @@ public class AutoHouseInteractListener implements Listener{
         if(plugin.getPlayerStorageManager().getHouse(uuid).length() > 0){
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou already own a house, it is "+plugin.getPlayerStorageManager().getHouse(uuid)));
         } else {
+            if(plugin.getEconomy()==null){
+                plugin.getLogger().severe("No Economy Plugin Found! AutoHouseInteractListener.AttemptHousePurchase");
+                return;
+            } else if(player == null){
+                plugin.getLogger().severe("No player found! AutoHouseInteractListener.AttemptHousePurchase");
+                return;
+            }
             if(plugin.getEconomy().getBalance(player)>=cost){
                 plugin.getEconomy().withdrawPlayer(player, cost);
                 controller.getStorageManager().addHouseOwner(housename, uuid);

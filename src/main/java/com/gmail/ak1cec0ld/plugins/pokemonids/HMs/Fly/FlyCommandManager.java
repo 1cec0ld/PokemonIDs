@@ -39,19 +39,16 @@ public class FlyCommandManager implements CommandExecutor{
                             player.sendMessage(ChatColor.COLOR_CHAR+"cYou don't appear to be in "+manager.getStorageManager().getParentOfFlyPoint(args[0]));
                         }
                     }else if(manager.getStorageManager().getRegions().contains(manager.getParentRegion(player.getLocation()))){
-                        messageAllFlyPoints(player);
+                        player.sendMessage(ChatColor.COLOR_CHAR+"cYou haven't been to " + args[0]);
+                        manager.getPlugin().getServer().getScheduler().runTaskLater(manager.getPlugin(),(Runnable) () -> messageAllFlyPoints(player),20L );
+
                     } else {
                         sender.sendMessage(ChatColor.COLOR_CHAR+"cYou haven't been to "+args[0]+" yet! Visit there first!");
                     }
                 } else {
                     Location loc = player.getLocation();
                     player.setVelocity(new Vector(0,200,0));
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(manager.getPlugin(), new Runnable(){
-
-                        @Override
-                        public void run() {
-                            player.teleport(loc);
-                        }},10L);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(manager.getPlugin(), () -> player.teleport(loc),10L);
                 }
             }
             return true;

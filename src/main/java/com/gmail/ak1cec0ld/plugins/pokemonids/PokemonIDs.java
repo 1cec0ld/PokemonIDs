@@ -1,19 +1,6 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids;
 
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.UUID;
-
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import com.gmail.ak1cec0ld.plugins.pokemonids.AutoHouse.AutoHouseController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.Badges.BadgesController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.Choice.ChoiceController;
@@ -34,8 +21,19 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.UUID;
 
 public class PokemonIDs extends JavaPlugin{
     private static Economy econ = null;
@@ -97,7 +95,7 @@ public class PokemonIDs extends JavaPlugin{
             return false;
         }
         econ = rsp.getProvider();
-        return econ != null;
+        return true;
     }
     
     public Economy getEconomy(){
