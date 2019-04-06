@@ -175,8 +175,9 @@ public class BadgesCommandManager implements CommandExecutor{
             //check if the player has the badge
             if(!controller.getPlugin().getPlayerStorageManager().hasBadge(target.getUniqueId().toString(), regionname, value)){
                 controller.getPlugin().getPlayerStorageManager().addBadge(target.getUniqueId().toString(), regionname, value);
-                sender.sendMessage(ChatColor.GREEN+"Congrats, you gave a badge away!");
-                target.sendMessage(ChatColor.YELLOW+"Congrats you got a badge!");
+                sender.sendMessage(ChatColor.GREEN+"You gave your badge to " + target.getName()+"!");
+                target.sendMessage(ChatColor.YELLOW+"Congrats! You got a badge!");
+                controller.getPlugin().getServer().dispatchCommand(controller.getPlugin().getServer().getConsoleSender(), "advancement give " + target.getName() + " only Pokemonids:badges/"+regionname+"/"+cityname);
             } else {
                 sender.sendMessage(ChatColor.RED+"The player already has the "+cityname+" badge!");
             }
@@ -189,9 +190,10 @@ public class BadgesCommandManager implements CommandExecutor{
             String regionname = controller.getStorageManager().getCityRegion(cityname);
             if(controller.getPlugin().getPlayerStorageManager().hasBadge(target.getUniqueId().toString(), regionname, value)){
                 controller.getPlugin().getPlayerStorageManager().deleteBadge(target.getUniqueId().toString(), regionname, value);
+                
                 sender.sendMessage(ChatColor.YELLOW+"Badge removed!");
             } else {
-                sender.sendMessage(ChatColor.RED+"That player doesn't appear to have "+cityname+" badge...");
+                sender.sendMessage(ChatColor.RED+"That player doesn't appear to have the "+cityname+" badge...");
             }
         }
     }

@@ -25,7 +25,7 @@ public class FlyCommandManager implements CommandExecutor{
         if(label.equalsIgnoreCase("fly")){
             if(args.length == 0){
                 sender.sendMessage(ChatColor.COLOR_CHAR+"bFly Plugin, subsection of PokemonIDs, version 1.0");
-                sender.sendMessage(ChatColor.COLOR_CHAR+"aVisit cities and Pokemon Centers, clicking the FLY signs as you go.");
+                sender.sendMessage(ChatColor.COLOR_CHAR+"aVisit cities and Pokemon Centers!");
                 sender.sendMessage(ChatColor.COLOR_CHAR+"aIf you're still in that Pokemon region, you can Fly back later!");
                 sender.sendMessage(ChatColor.COLOR_CHAR+"6Just make sure there's nothing above your head, or you might smack it!");
                 sender.sendMessage(ChatColor.COLOR_CHAR+"6  /fly {location}");
