@@ -49,8 +49,18 @@ public class AutoHouseController {
         double a = D3/A3;
         double b = (D1-A1*a)/B1;
         double c = y1-(a*x1*x1)-(b*x1);
-        
-        return (int) ((a*tiles*tiles + b*tiles + c) * 1-(AutoHouseConfigManager.getBonusMultiplier()*AutoHouseConfigManager.getBonus()));
+        int result = (int)(a*tiles*tiles + b*tiles + c);
+        double discount = AutoHouseConfigManager.getBonusMultiplier()*AutoHouseConfigManager.getBonus();
+        double multiplier = 1-discount;
+
+        /*
+        plugin.getLogger().info("original: " + result);
+        plugin.getLogger().info("Discount: " + discount);
+        plugin.getLogger().info("Multiplier: " + multiplier);
+        plugin.getLogger().info("return: " + (int)(result*multiplier));
+        */
+
+        return (int) (result * multiplier);
     }
     /*
     public static void assignPlayerToHouse(String houseName, String playerName){

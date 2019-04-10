@@ -13,6 +13,7 @@ import com.gmail.ak1cec0ld.plugins.pokemonids.MapFun.MapFun;
 import com.gmail.ak1cec0ld.plugins.pokemonids.QuickHome.QuickHomeController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.SSParadox.BoatController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.Teleports.TeleportsController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.where_command.WhereCommandListener;
 import com.sk89q.squirrelid.Profile;
 import com.sk89q.squirrelid.resolver.HttpRepositoryService;
 import com.sk89q.squirrelid.resolver.ProfileService;
@@ -37,9 +38,11 @@ import java.util.UUID;
 
 public class PokemonIDs extends JavaPlugin{
     private static Economy econ = null;
-    private PlayerStorageManager strMan;
+    private static PlayerStorageManager strMan;
+    private static PokemonIDs instance;
     
     public void onEnable(){
+        instance = this;
         strMan = new PlayerStorageManager(this);
         this.getServer().getPluginCommand("pokemonids").setExecutor(new PIDCommand(this));
         
@@ -71,26 +74,27 @@ public class PokemonIDs extends JavaPlugin{
             new FlyController(this);
             new ChoiceController(this);
             new QuickHomeController(this);
+            new WhereCommandListener();
         }
         
     }
-    private WorldGuardPlugin setWorldGuard(){
-        Plugin WG = getServer().getPluginManager().getPlugin("WorldGuard");
+    private static WorldGuardPlugin setWorldGuard(){
+        Plugin WG = instance.getServer().getPluginManager().getPlugin("WorldGuard");
         
         if (!(WG instanceof WorldGuardPlugin))
         {
-            this.getLogger().severe("WorldGuard Not Found!!!!");
+            instance.getLogger().severe("WorldGuard Not Found!!!!");
             return null;
         }
-        this.getLogger().info("WorldGuard Plugin Loaded!");
+        instance.getLogger().info("WorldGuard Plugin Loaded!");
         return (WorldGuardPlugin)WG;
     }
     
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+    private static boolean setupEconomy() {
+        if (instance.getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        RegisteredServiceProvider<Economy> rsp = instance.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             return false;
         }
@@ -98,15 +102,19 @@ public class PokemonIDs extends JavaPlugin{
         return true;
     }
     
-    public Economy getEconomy(){
+    public static Economy getEconomy(){
         return PokemonIDs.econ;
     }
     
-    public PlayerStorageManager getPlayerStorageManager(){
-        return this.strMan;
+    public static PlayerStorageManager getPlayerStorageManager(){
+        return PokemonIDs.strMan;
+    }
+
+    public static PokemonIDs instance(){
+        return instance;
     }
     
-    public boolean inRegionChild(Location loc, String regionName){
+    public static boolean inRegionChild(Location loc, String regionName){
         RegionContainer getRC = WorldGuard.getInstance().getPlatform().getRegionContainer();
         HashSet<ProtectedRegion> store = new HashSet<>();
         ApplicableRegionSet set = null;
@@ -131,7 +139,7 @@ public class PokemonIDs extends JavaPlugin{
         return false;
     }
 
-    public Player getPlayerFromString(String string) {
+    public static Player getPlayerFromString(String string) {
         for(Player p : Bukkit.getOnlinePlayers()){
             if(p.getName().startsWith(string)){
                 return p;

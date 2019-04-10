@@ -35,7 +35,6 @@ class AutoHouseConfigManager {
     }
     static void setBonus(){
         clean();
-        if(getBonus() >= 50)return;
         storage.set("bonusEntries."+System.currentTimeMillis(),System.currentTimeMillis());
         yml.save();
     }
@@ -43,7 +42,7 @@ class AutoHouseConfigManager {
         clean();
         ConfigurationSection cfg = storage.getConfigurationSection("bonusEntries");
         if(cfg == null)return 0;
-        return cfg.getKeys(false).size();
+        return Math.min(50, cfg.getKeys(false).size());
     }
     private static void clean(){
         ConfigurationSection cfg = storage.getConfigurationSection("bonusEntries");

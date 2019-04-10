@@ -24,12 +24,6 @@ public class AutoHouseInteractListener implements Listener{
     AutoHouseInteractListener(AutoHouseController controller){
         this.controller = controller;
     }
-    
-    /*
-    public void log(String message){
-        controller.getPlugin().getLogger().log(Level.INFO, message);
-    }
-    */
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
@@ -60,9 +54,12 @@ public class AutoHouseInteractListener implements Listener{
                 if(line_2<=150){
                     controller.getStorageManager().createHouse(housename, line_2);
                 }
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lThis price was outdated/wrong!"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cOld price: " +interact_block_line_2));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bNew price: " +controller.getPrice(AutoHouseStorageManager.getHouseSize(housename))));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&ePlease try to buy again if you still want it!"));
                 interact_block.setLine(1, Integer.toString(controller.getPrice(AutoHouseStorageManager.getHouseSize(housename))));
                 interact_block.update();
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cThis house was using an outdated pricing system! I'm sorry! Please try to buy again if you still want it!"));
             } else {
                 attemptHousePurchase(interact_block,player,line_2);
             }
@@ -205,13 +202,6 @@ public class AutoHouseInteractListener implements Listener{
         if(plugin.getPlayerStorageManager().getHouse(uuid).length() > 0){
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eYou already own a house, it is "+plugin.getPlayerStorageManager().getHouse(uuid)));
         } else {
-            if(plugin.getEconomy()==null){
-                plugin.getLogger().severe("No Economy Plugin Found! AutoHouseInteractListener.AttemptHousePurchase");
-                return;
-            } else if(player == null){
-                plugin.getLogger().severe("No player found! AutoHouseInteractListener.AttemptHousePurchase");
-                return;
-            }
             if(plugin.getEconomy().getBalance(player)>=cost){
                 plugin.getEconomy().withdrawPlayer(player, cost);
                 controller.getStorageManager().addHouseOwner(housename, uuid);
@@ -222,7 +212,7 @@ public class AutoHouseInteractListener implements Listener{
                 plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(), "rg addowner -w "+player.getWorld().getName()+" "+housename+" "+player.getName());
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&eHouse bought! New balance: &a"+plugin.getEconomy().getBalance(player)));
             } else {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNot enough money! You have &4$"+plugin.getEconomy().getBalance(player)+"/&2$"+cost+"!"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNot enough money! You have &4$"+plugin.getEconomy().getBalance(player)+"&f/&2$"+cost+"!"));
             }
         }
     }
