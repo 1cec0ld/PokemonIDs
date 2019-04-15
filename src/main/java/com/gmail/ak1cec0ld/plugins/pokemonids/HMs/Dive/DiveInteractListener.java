@@ -1,7 +1,8 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Dive;
 
+import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -21,20 +22,18 @@ public class DiveInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
-            Block hitblock = event.getClickedBlock();
-            if(hitblock.getType().equals(Material.BARRIER)){
-                int id = getIdentifierY(hitblock);
-                if(id >= 0){
-                    event.setCancelled(true);
-                    if(controller.permissionToBreak(event.getPlayer())){
-                        event.getPlayer().sendMessage(ChatColor.BLUE+"You used DIVE!");
-                        diveBlockBreak(hitblock,id);
-                    } else {
-                        event.getPlayer().sendMessage(ChatColor.RED+"The water looks deep here.");
-                    }
-                }
-            }
+        if(!(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)))return;
+        Block hitblock = event.getClickedBlock();
+        if(!hitblock.getType().equals(Material.BARRIER))return;
+        int id = getIdentifierY(hitblock);
+        if(id < 0)return;
+
+        event.setCancelled(true);
+        if(controller.permissionToBreak(event.getPlayer())){
+            PokemonIDs.msgActionBar(event.getPlayer(),"You used DIVE!",ChatColor.BLUE);
+            diveBlockBreak(hitblock,id);
+        } else {
+            PokemonIDs.msgActionBar(event.getPlayer(),"The water looks deep here.", ChatColor.RED);
         }
     }
     

@@ -1,10 +1,7 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.HMs.RockSmash;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
-import org.bukkit.ChatColor;
+import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -18,6 +15,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class RSmashInteractListener implements Listener{
     private RSmashController controller;
@@ -33,19 +34,17 @@ public class RSmashInteractListener implements Listener{
     
     @EventHandler
     public void onInteractWithBlock(PlayerInteractEvent event){
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
-            Block hitblock = event.getClickedBlock();
-            if(hitblock.getType().equals(Material.COBBLESTONE_STAIRS)){
-                int id = getIdentifierY(hitblock.getLocation());
-                if(id >= 0){
-                    if(controller.permissionToBreak(event.getPlayer())){
-                        event.getPlayer().sendMessage(ChatColor.DARK_GREEN+"You used ROCK SMASH!");
-                        breakRock(getRockLoc(hitblock.getLocation(),id));
-                    } else {
-                        event.getPlayer().sendMessage(ChatColor.RED+"This rock looks breakable.");
-                    }
-                }
-            }
+        if(!(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)))return;
+        Block hitblock = event.getClickedBlock();
+        if(!hitblock.getType().equals(Material.COBBLESTONE_STAIRS))return;
+        int id = getIdentifierY(hitblock.getLocation());
+        if(id < 0)return;
+
+        if(controller.permissionToBreak(event.getPlayer())){
+            PokemonIDs.msgActionBar(event.getPlayer(),"You used ROCK SMASH!", ChatColor.DARK_GREEN);
+            breakRock(getRockLoc(hitblock.getLocation(),id));
+        } else {
+            PokemonIDs.msgActionBar(event.getPlayer(),"This rock looks breakable.",ChatColor.RED);
         }
     }
     

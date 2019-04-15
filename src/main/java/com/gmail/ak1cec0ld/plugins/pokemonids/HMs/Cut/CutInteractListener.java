@@ -1,8 +1,7 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Cut;
 
+import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -24,23 +23,21 @@ public class CutInteractListener implements Listener{
     
     @EventHandler(priority = HIGH)
     public void onInteractWithBlock(PlayerInteractEvent event){
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
-            Block hitblock = event.getClickedBlock();
-            if(hitblock.getType().equals(Material.DARK_OAK_LOG)||hitblock.getType().equals(Material.DARK_OAK_LEAVES)){
-                int id = getIdentifierY(hitblock);
-                if(id >= 0){
-                    event.setCancelled(true);
-                    if(controller.permissionToBreak(event.getPlayer())){
-                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("You CUT the tree down!").color(ChatColor.DARK_GREEN).create());
-                        cutTree(hitblock,id);
-                    } else {
-                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("This tree looks like it can be CUT down!").color(ChatColor.RED).create());
-                    }
-                }
-            }
+        if(!(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)))return;
+        Block hitblock = event.getClickedBlock();
+        if(!(hitblock.getType().equals(Material.DARK_OAK_LOG)||hitblock.getType().equals(Material.DARK_OAK_LEAVES)))return;
+        int id = getIdentifierY(hitblock);
+        if(id < 0)return;
+
+        event.setCancelled(true);
+        if(controller.permissionToBreak(event.getPlayer())){
+            PokemonIDs.msgActionBar(event.getPlayer(),"You CUT the tree down",ChatColor.DARK_GREEN);
+            cutTree(hitblock,id);
+        } else {
+            PokemonIDs.msgActionBar(event.getPlayer(),"This tree looks like it can be CUT down!",ChatColor.RED);
         }
     }
-    
+
     private void cutTree(Block hitblock, int identifier){
         int idshiftx = -1;
         int idshiftz = -1;

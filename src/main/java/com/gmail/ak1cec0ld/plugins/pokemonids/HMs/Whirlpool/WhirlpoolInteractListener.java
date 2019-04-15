@@ -1,7 +1,8 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Whirlpool;
 
+import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -29,10 +30,10 @@ public class WhirlpoolInteractListener implements Listener {
                 if(id >= 0){
                     event.setCancelled(true);
                     if(controller.permissionToBreak(event.getPlayer())){
-                        event.getPlayer().sendMessage(ChatColor.BLUE+"You used WHIRLPOOL!");
+                        PokemonIDs.msgActionBar(event.getPlayer(),"You used WHIRLPOOL!", ChatColor.BLUE);
                         diveBlockBreak(hitblock);
                     } else {
-                        event.getPlayer().sendMessage(ChatColor.RED+"The water is making an impassable Whirlpool!");
+                        PokemonIDs.msgActionBar(event.getPlayer(),"The water is making an impassable Whirlpool!",ChatColor.RED);
                     }
                 }
             }
@@ -48,29 +49,22 @@ public class WhirlpoolInteractListener implements Listener {
                 }
             }
         }
-        Bukkit.getScheduler().runTaskLater(controller.getPlugin(), new Runnable(){
-            @Override
-            public void run() {
-                Location copy = Bukkit.getWorld("Japan").getBlockAt(-2208, 27, 464).getLocation();
-                for (int x = start.getBlockX(); x <= start.getBlockX()+5; x++){
-                    for (int z = start.getBlockZ(); z <= start.getBlockZ()+5; z++){
-                        for (int y = start.getBlockY(); y <= start.getBlockY()+6; y++){
-                            //copy = Bukkit.getWorld("Japan").getBlockAt(-2208, 27, 464).getLocation();
-                            //start.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlock().setType(copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlock().getType());
-                            //Bukkit.getLogger().info("Changing "+ x + " " + y + " " + z + " to " + copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlockX() + " " + copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlockY() + " " + copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlockZ() + " as " + copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlock().getType().toString() );
-
-                            copy = Bukkit.getWorld("Japan").getBlockAt(-2208, 27, 464).getLocation();
-                            hitblock.getWorld().getBlockAt(x, y, z).setType(copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlock().getType());
-                            copy = Bukkit.getWorld("Japan").getBlockAt(-2208, 27, 464).getLocation();
-                            hitblock.getWorld().getBlockAt(x, y, z).setBlockData(copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlock().getBlockData());;
-                        }
+        Bukkit.getScheduler().runTaskLater(controller.getPlugin(), () -> {
+            Location copy;
+            for (int x = start.getBlockX(); x <= start.getBlockX()+5; x++){
+                for (int z = start.getBlockZ(); z <= start.getBlockZ()+5; z++){
+                    for (int y = start.getBlockY(); y <= start.getBlockY()+6; y++){
+                        copy = Bukkit.getWorld("Japan").getBlockAt(-2208, 27, 464).getLocation();
+                        hitblock.getWorld().getBlockAt(x, y, z).setType(copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlock().getType());
+                        copy = Bukkit.getWorld("Japan").getBlockAt(-2208, 27, 464).getLocation();
+                        hitblock.getWorld().getBlockAt(x, y, z).setBlockData(copy.add(x-start.getBlockX(), y-start.getBlockY(), z-start.getBlockZ()).getBlock().getBlockData());
                     }
                 }
             }
         }, 200L);
     }
     
-    protected Location getStart(Block hitblock) {
+    private Location getStart(Block hitblock) {
         int y = getIdentifierY(hitblock);
         if (y > 0){
             for(int x = hitblock.getX();x >= hitblock.getX()-7;x--){

@@ -23,6 +23,9 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -160,5 +163,11 @@ public class PokemonIDs extends JavaPlugin{
             return null;
         }
         return null;
+    }
+    public static void msgActionBar(Player player, String message){
+        msgActionBar(player,message, ChatColor.RESET);
+    }
+    public static void msgActionBar(Player player, String message, ChatColor color){
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(message).color(color).create());
     }
 }
