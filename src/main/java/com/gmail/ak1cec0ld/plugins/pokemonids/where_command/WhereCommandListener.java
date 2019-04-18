@@ -8,6 +8,7 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.CommandPermission;
 import io.github.jorelali.commandapi.api.arguments.Argument;
+import io.github.jorelali.commandapi.api.arguments.PlayerArgument;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -22,6 +23,7 @@ public class WhereCommandListener {
 
     public WhereCommandListener(){
         registerCommand();
+        registerCommandWithPlayer();
     }
 
     private void registerCommand(){
@@ -29,6 +31,12 @@ public class WhereCommandListener {
             if(!(sender instanceof Player))return;
             Player player = (Player)sender;
             player.sendMessage("You are in: ["+listRegionsAt(player.getLocation())+"] in "+player.getWorld().getName());
+        });
+    }
+    private void registerCommandWithPlayer(){
+        arguments.put("who", new PlayerArgument());
+        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,COMMAND_ALIASES,arguments,(sender,args)->{
+            sender.sendMessage("That player is at: ["+listRegionsAt(((Player)args[0]).getLocation())+"] in "+((Player)args[0]).getWorld().getName());
         });
     }
 
