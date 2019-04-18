@@ -9,6 +9,7 @@ public class TeleportsController {
         plugin.getCommand("wild").setExecutor(new WildsCommandManager());
         plugin.getCommand("spawn").setExecutor(new SpawnCommandManager(this));
         plugin.getCommand("pvp").setExecutor(new PvPCommandManager(this));
+        new LobbyCommandManager();
     }
     
     public PokemonIDs getPlugin(){
