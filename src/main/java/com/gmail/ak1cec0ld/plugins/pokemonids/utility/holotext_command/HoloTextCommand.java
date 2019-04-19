@@ -38,7 +38,7 @@ public class HoloTextCommand {
                 armorStand.setCustomNameVisible(true);
                 armorStand.setGravity(false);
                 armorStand.setInvulnerable(true);
-                player.chat("/data merge entity @e[sort=nearest,type=minecraft:armor_stand,limit=1] {Tags:[\"HoloText\"]");
+                player.chat("/data merge entity @e[sort=nearest,type=minecraft:armor_stand,limit=1] {Tags:[\"HoloText\"]}");
             }
         });
     }
