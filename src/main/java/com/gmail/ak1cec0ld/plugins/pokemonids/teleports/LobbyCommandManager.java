@@ -38,7 +38,7 @@ public class LobbyCommandManager {
     }
     private void registerLobbyCommandWithNumber(){
         arguments.put("floor", new IntegerArgument(1,9));
-        CommandAPI.getInstance().register(COMMAND_ALIAS_LOBBY, CommandPermission.NONE, COMMAND_ALIASES, arguments, (sender, args)->{
+        CommandAPI.getInstance().register(COMMAND_ALIAS_LOBBY, CommandPermission.fromString("essentials.suicide"), COMMAND_ALIASES, arguments, (sender, args)->{
             if(!(sender instanceof Player))return;
             Player player = (Player)sender;
             if(player.hasMetadata(KEY_W) ||
