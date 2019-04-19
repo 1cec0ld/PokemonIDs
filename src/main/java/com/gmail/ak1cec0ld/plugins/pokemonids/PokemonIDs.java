@@ -1,19 +1,19 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids;
 
 
-import com.gmail.ak1cec0ld.plugins.pokemonids.AutoHouse.AutoHouseController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.Badges.BadgesController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.Choice.ChoiceController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Cut.CutController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Dive.DiveController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Fly.FlyController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.HMs.RockSmash.RSmashController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.HMs.Whirlpool.WhirlpoolController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.MapFun.MapFun;
-import com.gmail.ak1cec0ld.plugins.pokemonids.QuickHome.QuickHomeController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.SSParadox.BoatController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.Teleports.TeleportsController;
-import com.gmail.ak1cec0ld.plugins.pokemonids.where_command.WhereCommandListener;
+import com.gmail.ak1cec0ld.plugins.pokemonids.autohouse.AutoHouseController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.badges.BadgesController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.choice.ChoiceController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.hms.cut.CutController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.hms.dive.DiveController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.hms.fly.FlyController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.hms.rocksmash.RSmashController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.hms.whirlpool.WhirlpoolController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.mapfun.MapFun;
+import com.gmail.ak1cec0ld.plugins.pokemonids.quickhome.QuickHomeController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.ssparadox.BoatController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.teleports.TeleportsController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.utility.UtilityManager;
 import com.sk89q.squirrelid.Profile;
 import com.sk89q.squirrelid.resolver.HttpRepositoryService;
 import com.sk89q.squirrelid.resolver.ProfileService;
@@ -56,6 +56,7 @@ public class PokemonIDs extends JavaPlugin{
         
         new BadgesController(this);
         new TeleportsController(this);
+        new UtilityManager();
         new BoatController(this);
 
 
@@ -63,21 +64,20 @@ public class PokemonIDs extends JavaPlugin{
         
         
         if (!setupEconomy()) {
-            this.getLogger().severe("[AutoHouse] - Disabled due to no Vault found!");
+            this.getLogger().severe("[autohouse] - Disabled due to no Vault found!");
         } else {
             new AutoHouseController(this);
         }
 
         if(setWorldGuard() == null){
-            this.getLogger().severe("[Fly] - Disabled due to no Worldguard found!");
+            this.getLogger().severe("[fly] - Disabled due to no Worldguard found!");
             this.getLogger().severe("[RegionChoice] - Disabled due to no Worldguard found!");
             this.getLogger().severe("[PokeChoice] - Disabled due to no Worldguard found!");
-            this.getLogger().severe("[QuickHome] - Disabled due to no Worldguard found!");
+            this.getLogger().severe("[quickhome] - Disabled due to no Worldguard found!");
         } else {
             new FlyController(this);
             new ChoiceController(this);
             new QuickHomeController(this);
-            new WhereCommandListener();
         }
         
     }
@@ -116,7 +116,6 @@ public class PokemonIDs extends JavaPlugin{
     public static PokemonIDs instance(){
         return instance;
     }
-    
     public static boolean inRegionChild(Location loc, String regionName){
         RegionContainer getRC = WorldGuard.getInstance().getPlatform().getRegionContainer();
         HashSet<ProtectedRegion> store = new HashSet<>();
@@ -151,7 +150,7 @@ public class PokemonIDs extends JavaPlugin{
         return null;
     }
 
-    public OfflinePlayer getOfflinePlayerFromString(String string) {
+    public static OfflinePlayer getOfflinePlayerFromString(String string) {
         ProfileService resolver = HttpRepositoryService.forMinecraft();
         try {
             Profile profile = resolver.findByName(string);
@@ -163,9 +162,6 @@ public class PokemonIDs extends JavaPlugin{
             return null;
         }
         return null;
-    }
-    public static void msgActionBar(Player player, String message){
-        msgActionBar(player,message, ChatColor.RESET);
     }
     public static void msgActionBar(Player player, String message, ChatColor color){
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(message).color(color).create());
