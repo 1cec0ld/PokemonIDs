@@ -34,6 +34,7 @@ public class WhereCommandListener {
         });
     }
     private void registerCommandWithPlayer(){
+        arguments = new LinkedHashMap<>();
         arguments.put("who", new PlayerArgument());
         CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,COMMAND_ALIASES,arguments,(sender,args)->{
             sender.sendMessage("That player is at: ["+listRegionsAt(((Player)args[0]).getLocation())+"] in "+((Player)args[0]).getWorld().getName());
