@@ -22,7 +22,7 @@ public class PIDCommand implements CommandExecutor {
                         if(p.getName().startsWith(args[1])){
                             plugin.getPlayerStorageManager().removePlayer(p.getUniqueId().toString());
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "advancement revoke "+p.getName()+" everything");
-                            p.kickPlayer("You have been purged from Pokemon Progress.");
+                            p.kickPlayer("You have been purged from pokemon Progress.");
                         }
                     }
                 }
