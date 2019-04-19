@@ -52,7 +52,7 @@ public class LobbyCommandManager {
             player.setMetadata(KEY_X, new FixedMetadataValue(PokemonIDs.instance(),player.getLocation().getX()));
             player.setMetadata(KEY_Y, new FixedMetadataValue(PokemonIDs.instance(),player.getLocation().getY()));
             player.setMetadata(KEY_Z, new FixedMetadataValue(PokemonIDs.instance(),player.getLocation().getZ()));
-            player.teleport(new Location(PokemonIDs.instance().getServer().getWorld("Japan"),-34.5,72.05+3*((int)args[0]-1),213.5));
+            player.teleport(new Location(PokemonIDs.instance().getServer().getWorld("Japan"),-34.5,72.5+3*((int)args[0]-1),213.5));
         });
     }
     private void registerReturnCommand(){
