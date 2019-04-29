@@ -1,7 +1,5 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.teleports;
 
-import java.util.Random;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -11,6 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Random;
 
 public class PvPCommandManager implements CommandExecutor {
 
@@ -59,7 +59,7 @@ public class PvPCommandManager implements CommandExecutor {
     
     private boolean isSafe(Material type) {
         return !(type.equals(Material.AIR) || type.equals(Material.WATER) ||
-                 type.equals(Material.SIGN) || type.equals(Material.WALL_SIGN) || 
+                 type.toString().contains("_SIGN") ||
                  type.equals(Material.TORCH) || type.equals(Material.WALL_TORCH) || 
                  type.equals(Material.REDSTONE_TORCH) || type.equals(Material.REDSTONE_WALL_TORCH) ||
                  type.equals(Material.LAVA) || type.equals(Material.END_PORTAL));

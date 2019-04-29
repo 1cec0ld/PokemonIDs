@@ -177,7 +177,7 @@ public class BadgesCommandManager implements CommandExecutor{
                 controller.getPlugin().getPlayerStorageManager().addBadge(target.getUniqueId().toString(), regionname, value);
                 sender.sendMessage(ChatColor.GREEN+"You gave your badge to " + target.getName()+"!");
                 target.sendMessage(ChatColor.YELLOW+"Congrats! You got a badge!");
-                controller.getPlugin().getServer().dispatchCommand(controller.getPlugin().getServer().getConsoleSender(), "advancement give " + target.getName() + " only Pokemonids:badges/"+regionname+"/"+cityname);
+                controller.getPlugin().getServer().dispatchCommand(controller.getPlugin().getServer().getConsoleSender(), "advancement grant " + target.getName() + " only pokemonids:badges/"+regionname+"/"+cityname);
             } else {
                 sender.sendMessage(ChatColor.RED+"The player already has the "+cityname+" badge!");
             }

@@ -30,7 +30,7 @@ public class AutoHouseInteractListener implements Listener{
         Block b = event.getClickedBlock();
         if(b == null)return;
         BlockState bs = b.getState();
-        if(!bs.getType().equals(Material.WALL_SIGN))return;
+        if(!bs.getType().toString().contains("_SIGN"))return;
         Sign interact_block = (Sign) bs;
         String interact_block_line_1 = interact_block.getLine(0);
         String interact_block_line_2 = interact_block.getLine(1);
@@ -155,7 +155,7 @@ public class AutoHouseInteractListener implements Listener{
 
     private static void runCoownerAddition(Sign interact_block) {
         Block nextSign = getHouseSignPositions(interact_block)[1].getBlock();
-        nextSign.setType(Material.WALL_SIGN);
+        nextSign.setType(Material.OAK_SIGN);
         nextSign.setBlockData(interact_block.getBlockData());
         Sign s = (Sign) nextSign.getState();
         s.setLine(0, FOR_SALE);
@@ -198,7 +198,7 @@ public class AutoHouseInteractListener implements Listener{
         Location primarySign = getHouseSignPositions(interact_block)[0];
         Location secondarySign = getHouseSignPositions(interact_block)[1];
         if(interact_block.getLocation().equals(primarySign)){
-            if(secondarySign.getBlock().getType().equals(Material.WALL_SIGN)){
+            if(secondarySign.getBlock().getType().toString().contains("_SIGN")){
                 return OwnerType.PRIMARY_OWNER;
             }
             return OwnerType.SOLO_OWNER;
@@ -208,25 +208,25 @@ public class AutoHouseInteractListener implements Listener{
     private static Location[] getHouseSignPositions(Sign interact_block){
         BlockFace direction = ((Directional)interact_block.getData()).getFacing();
         if(direction.equals(BlockFace.NORTH)){ //northfacing, coowner sign is x-1
-            if(interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getType().equals(Material.WALL_SIGN)){
+            if(interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getType().toString().contains("_SIGN")){
                 return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getLocation(),interact_block.getLocation()};
             } else {
                 return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getLocation()};
             }
         } else if(direction.equals(BlockFace.SOUTH)){ //southfacing, coowner sign is x+1
-            if(interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getType().equals(Material.WALL_SIGN)){
+            if(interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getType().toString().contains("_SIGN")){
                 return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX()-1, interact_block.getY(), interact_block.getZ()).getLocation(),interact_block.getLocation()};
             } else {
                 return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getLocation()};
             }
         } else if(direction.equals(BlockFace.WEST)){ //westfacing, coowner sign is z+1
-            if(interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getType().equals(Material.WALL_SIGN)){
+            if(interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getType().toString().contains("_SIGN")){
                 return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getLocation(),interact_block.getLocation()};
             } else {
                 return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getLocation()};
             }
         } else if(direction.equals(BlockFace.EAST)){ //eastfacing, coowner sign is z-1
-            if(interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getType().equals(Material.WALL_SIGN)){
+            if(interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getType().toString().contains("_SIGN")){
                 return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()+1).getLocation(),interact_block.getLocation()};
             } else {
                 return new Location[]{interact_block.getLocation(),interact_block.getWorld().getBlockAt(interact_block.getX(), interact_block.getY(), interact_block.getZ()-1).getLocation()};
