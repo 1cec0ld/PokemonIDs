@@ -155,7 +155,7 @@ public class AutoHouseInteractListener implements Listener{
 
     private static void runCoownerAddition(Sign interact_block) {
         Block nextSign = getHouseSignPositions(interact_block)[1].getBlock();
-        nextSign.setType(Material.OAK_WALL_SIGN);
+        nextSign.setType(interact_block.getType());
         nextSign.setBlockData(interact_block.getBlockData());
         Sign s = (Sign) nextSign.getState();
         s.setLine(0, FOR_SALE);

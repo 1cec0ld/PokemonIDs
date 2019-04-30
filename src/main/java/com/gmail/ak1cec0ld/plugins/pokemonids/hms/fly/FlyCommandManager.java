@@ -94,18 +94,6 @@ public class FlyCommandManager implements CommandExecutor{
                 Material.DARK_OAK_BUTTON,
                 Material.JUNGLE_BUTTON,
                 Material.SPRUCE_BUTTON,
-                Material.OAK_WALL_SIGN,
-                Material.ACACIA_WALL_SIGN,
-                Material.BIRCH_WALL_SIGN,
-                Material.DARK_OAK_WALL_SIGN,
-                Material.JUNGLE_WALL_SIGN,
-                Material.SPRUCE_WALL_SIGN,
-                Material.OAK_SIGN,
-                Material.ACACIA_SIGN,
-                Material.BIRCH_SIGN,
-                Material.DARK_OAK_SIGN,
-                Material.JUNGLE_SIGN,
-                Material.SPRUCE_SIGN,
                 Material.OAK_FENCE,
                 Material.ACACIA_FENCE,
                 Material.BIRCH_FENCE,
@@ -126,7 +114,9 @@ public class FlyCommandManager implements CommandExecutor{
         int k = player.getEyeLocation().getBlockZ();
         for(int j = player.getEyeLocation().getBlockY(); j < player.getWorld().getMaxHeight(); j++){
             if(!goThroughThese.contains(player.getWorld().getBlockAt(i, j, k).getType())){
-                return false;
+                if((!player.getWorld().getBlockAt(i, j, k).getType().toString().contains("_SIGN"))){
+                    return false;
+                }
             }
         }
         return true;
