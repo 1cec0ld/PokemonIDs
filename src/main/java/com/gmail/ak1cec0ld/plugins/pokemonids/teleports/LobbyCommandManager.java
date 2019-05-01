@@ -45,14 +45,14 @@ public class LobbyCommandManager {
                player.hasMetadata(KEY_X) ||
                player.hasMetadata(KEY_Y) ||
                player.hasMetadata(KEY_Z)){
-               player.sendMessage("/return to your old location before you go to another lobby!");
+               player.sendMessage("&b/go back&e to your old location before you go to another lobby!");
                 return;
             }
             player.setMetadata(KEY_W, new FixedMetadataValue(PokemonIDs.instance(),player.getWorld().getName()));
             player.setMetadata(KEY_X, new FixedMetadataValue(PokemonIDs.instance(),player.getLocation().getX()));
             player.setMetadata(KEY_Y, new FixedMetadataValue(PokemonIDs.instance(),player.getLocation().getY()));
             player.setMetadata(KEY_Z, new FixedMetadataValue(PokemonIDs.instance(),player.getLocation().getZ()));
-            player.teleport(new Location(PokemonIDs.instance().getServer().getWorld("Japan"),-34.5,72.5+3*((int)args[0]-1),213.5));
+            player.teleport(new Location(PokemonIDs.instance().getServer().getWorld("Japan"),-34.5,73.5+3*((int)args[0]-1),213.5));
         });
     }
     private void registerReturnCommand(){

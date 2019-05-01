@@ -17,6 +17,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.material.Directional;
 
+import java.text.NumberFormat;
+
 public class AutoHouseInteractListener implements Listener{
     private enum OwnerType {SOLO_OWNER, PRIMARY_OWNER, COOWNER}
     private static final String FOR_SALE = ChatColor.COLOR_CHAR+"a[For Sale]";
@@ -83,7 +85,8 @@ public class AutoHouseInteractListener implements Listener{
                 AutoHouseTaskManager.removePlayerMode(player,0);
                 break;
             case 1:
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNot enough money! You have &4$" + PokemonIDs.getEconomy().getBalance(player) + "&f/&2$" + cost + "!"));
+                NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNot enough money! You have &4$" + formatter.format(PokemonIDs.getEconomy().getBalance(player)) + "&f/&2$" + cost + "!"));
                 break;
             case 2:
                 String uuid = player.getUniqueId().toString();
@@ -141,7 +144,6 @@ public class AutoHouseInteractListener implements Listener{
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aYou've chosen to &badd a co-owner&a to your house!"));
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bRight-click &aagain to confirm this choice, or crouch-rightclick to change to &bSell Mode&a!"));
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aThis option will time out in 10 seconds..."));
-
             }
         } else {
             AutoHouseTaskManager.removePlayerMode(player,2);
