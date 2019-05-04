@@ -1,6 +1,7 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.utility.where_command;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -46,7 +47,9 @@ public class WhereCommandListener {
         RegionContainer getRC = WorldGuard.getInstance().getPlatform().getRegionContainer();
         ApplicableRegionSet playerRegions = getRC.createQuery().getApplicableRegions(BukkitAdapter.adapt(loc));
         for(ProtectedRegion region : playerRegions){
-            output += (","+region.getId());
+            if(region.contains(loc.getBlockX(),loc.getBlockY(),loc.getBlockZ())){
+                output += ("," + region.getId());
+            }
         }
         return (output.length() < 1) ? "" : output.substring(1);
     }

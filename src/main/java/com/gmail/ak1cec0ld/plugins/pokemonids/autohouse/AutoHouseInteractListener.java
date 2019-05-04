@@ -109,6 +109,7 @@ public class AutoHouseInteractListener implements Listener{
         interact_block.setLine(1, player.getName());
         interact_block.update();
         PokemonIDs.instance().getServer().dispatchCommand(PokemonIDs.instance().getServer().getConsoleSender(), "rg addowner -w " + player.getWorld().getName() + " " + housename + " " + player.getName());
+        PokemonIDs.instance().getServer().dispatchCommand(PokemonIDs.instance().getServer().getConsoleSender(), "advancement grant " + player.getName() + " only pokemonids:misc/buy_house");
     }
     private static void checkHouseRemoval(Sign interact_block, Player player){
         if(!(interact_block.getLine(1).equals(player.getName()) || player.hasPermission("worldguard.region"))){
