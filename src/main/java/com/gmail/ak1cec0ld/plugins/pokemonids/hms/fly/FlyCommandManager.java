@@ -114,7 +114,7 @@ public class FlyCommandManager implements CommandExecutor{
         int k = player.getEyeLocation().getBlockZ();
         for(int j = player.getEyeLocation().getBlockY(); j < player.getWorld().getMaxHeight(); j++){
             if(!goThroughThese.contains(player.getWorld().getBlockAt(i, j, k).getType())){
-                if((!player.getWorld().getBlockAt(i, j, k).getType().toString().contains("_SIGN"))){
+                if((!player.getWorld().getBlockAt(i, j, k).getType().toString().endsWith("SIGN"))){
                     return false;
                 }
             }

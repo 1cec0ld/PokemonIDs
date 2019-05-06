@@ -59,7 +59,7 @@ public class PvPCommandManager implements CommandExecutor {
     
     private boolean isSafe(Material type) {
         return !(type.equals(Material.AIR) || type.equals(Material.WATER) ||
-                 type.toString().contains("_SIGN") ||
+                 type.toString().endsWith("SIGN") ||
                  type.equals(Material.TORCH) || type.equals(Material.WALL_TORCH) || 
                  type.equals(Material.REDSTONE_TORCH) || type.equals(Material.REDSTONE_WALL_TORCH) ||
                  type.equals(Material.LAVA) || type.equals(Material.END_PORTAL));

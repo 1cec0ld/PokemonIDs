@@ -168,7 +168,7 @@ public class PokeChoiceInteractListener implements Listener{
         for(int y = b.getY(); y > b.getY()-10; y--){
             Block b2 = b.getWorld().getBlockAt(b.getX(), y, b.getZ());
             BlockState bs = b.getWorld().getBlockAt(b.getX(), y, b.getZ()).getState();
-            if(b2.getType().toString().contains("_SIGN")){
+            if(b2.getType().toString().endsWith("SIGN")){
                 Sign blockSign = (Sign)bs;
                 String interact_block_line_1 = blockSign.getLine(0);
                 if(interact_block_line_1.equalsIgnoreCase(ChatColor.COLOR_CHAR+"2[Sword]")){
