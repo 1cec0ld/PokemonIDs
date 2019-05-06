@@ -36,6 +36,7 @@ public class RSmashInteractListener implements Listener{
     public void onInteractWithBlock(PlayerInteractEvent event){
         if(!(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)))return;
         Block hitblock = event.getClickedBlock();
+        assert hitblock != null;
         if(!hitblock.getType().equals(Material.COBBLESTONE_STAIRS))return;
         int id = getIdentifierY(hitblock.getLocation());
         if(id < 0)return;
@@ -48,18 +49,13 @@ public class RSmashInteractListener implements Listener{
         }
     }
     
-    private void breakRock(Location loc){
-        setLayer(loc,Material.AIR);
-        setLayer(loc.toVector().add(new Vector(0,1,0)).toLocation(loc.getWorld()),Material.AIR);
-        controller.getPlugin().getServer().getScheduler().runTaskLater(controller.getPlugin(), new Runnable(){
-            @Override
-            public void run() {
-                makeRock(loc);
-            }
-        }, 100L);
+    private void breakRock(Block block){
+        setLayer(block,Material.AIR);
+        setLayer(block.getRelative(0,1,0),Material.AIR);
+        PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(), () -> makeRock(block), 100L);
     }
 
-    private Location getRockLoc(Location hitblockLoc, int id_y){
+    private Block getRockLoc(Location hitblockLoc, int id_y){
         int identifier = id_y;
         int idshiftx = -1;
         int idshiftz = -1;
@@ -83,7 +79,7 @@ public class RSmashInteractListener implements Listener{
         World world = hitblockLoc.getWorld();
         for(int rocksearch = identifier; rocksearch <= identifier+8; rocksearch++){
             if(world.getBlockAt(minx, rocksearch, minz).getType().equals(Material.COBBLESTONE_STAIRS)){
-                return world.getBlockAt(minx,rocksearch,minz).getLocation();
+                return world.getBlockAt(minx,rocksearch,minz);
             }
         }
         return null;
@@ -101,25 +97,25 @@ public class RSmashInteractListener implements Listener{
         return -1;
     }
     
-    private void makeRock(Location loc){
-        setLayer(loc,Material.COBBLESTONE_STAIRS);
-        setLayer(loc.toVector().add(new Vector(0,1,0)).toLocation(loc.getWorld()),Material.COBBLESTONE_STAIRS);
-        randomizeLayer(loc);
-        randomizeLayer(loc.toVector().add(new Vector(0,1,0)).toLocation(loc.getWorld()));
+    private void makeRock(Block block){
+        setLayer(block,Material.COBBLESTONE_STAIRS);
+        setLayer(block.getRelative(0,1,0),Material.COBBLESTONE_STAIRS);
+        randomizeLayer(block);
+        randomizeLayer(block.getRelative(0,1,0));
     }
     
-    private void setLayer(Location loc, Material newmat){
-        loc.getBlock().setType(newmat);
-        loc.getBlock().getRelative(0,0,1).setType(newmat);
-        loc.getBlock().getRelative(1,0,0).setType(newmat);
-        loc.getBlock().getRelative(1,0,1).setType(newmat);
+    private void setLayer(Block block, Material newmat){
+        block.setType(newmat);
+        block.getRelative(0,0,1).setType(newmat);
+        block.getRelative(1,0,0).setType(newmat);
+        block.getRelative(1,0,1).setType(newmat);
     }
     
-    private void randomizeLayer(Location loc){
-        setFacingRandom(loc.getBlock());
-        setFacingRandom(loc.getBlock().getRelative(0,0,1));
-        setFacingRandom(loc.getBlock().getRelative(1,0,0));
-        setFacingRandom(loc.getBlock().getRelative(1,0,1));
+    private void randomizeLayer(Block block){
+        setFacingRandom(block);
+        setFacingRandom(block.getRelative(0,0,1));
+        setFacingRandom(block.getRelative(1,0,0));
+        setFacingRandom(block.getRelative(1,0,1));
     }
     
     private void setFacingRandom(Block target){
