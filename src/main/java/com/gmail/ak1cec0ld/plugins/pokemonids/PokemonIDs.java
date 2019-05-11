@@ -3,6 +3,7 @@ package com.gmail.ak1cec0ld.plugins.pokemonids;
 
 import com.gmail.ak1cec0ld.plugins.pokemonids.autohouse.AutoHouseController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.badges.BadgesController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.buildmode.BuildMode;
 import com.gmail.ak1cec0ld.plugins.pokemonids.choice.ChoiceController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.hms.cut.CutController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.hms.dive.DiveController;
@@ -61,6 +62,7 @@ public class PokemonIDs extends JavaPlugin{
         new UtilityManager();
         new BoatController(this);
         new SBManager();
+        new BuildMode();
 
 
         new MapFun(this);
