@@ -11,6 +11,7 @@ import com.gmail.ak1cec0ld.plugins.pokemonids.hms.rocksmash.RSmashController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.hms.whirlpool.WhirlpoolController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.mapfun.MapFun;
 import com.gmail.ak1cec0ld.plugins.pokemonids.quickhome.QuickHomeController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.secretbases.SBManager;
 import com.gmail.ak1cec0ld.plugins.pokemonids.ssparadox.BoatController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.teleports.TeleportsController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.utility.UtilityManager;
@@ -43,6 +44,7 @@ public class PokemonIDs extends JavaPlugin{
     private static Economy econ = null;
     private static PlayerStorageManager strMan;
     private static PokemonIDs instance;
+    private static boolean debugging = true;
     
     public void onEnable(){
         instance = this;
@@ -58,6 +60,7 @@ public class PokemonIDs extends JavaPlugin{
         new TeleportsController(this);
         new UtilityManager();
         new BoatController(this);
+        new SBManager();
 
 
         new MapFun(this);
@@ -165,5 +168,10 @@ public class PokemonIDs extends JavaPlugin{
     }
     public static void msgActionBar(Player player, String message, ChatColor color){
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(message).color(color).create());
+    }
+    public static void debug(String string){
+        if(debugging){
+            Bukkit.getLogger().info("[PokemonIDs-debug] "+string);
+        }
     }
 }
