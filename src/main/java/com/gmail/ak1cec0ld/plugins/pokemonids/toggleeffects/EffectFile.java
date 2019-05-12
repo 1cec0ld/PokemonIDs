@@ -19,13 +19,8 @@ public class EffectFile {
     }
     
     static Set<String> getEffects(){
-        if(storage==null){
-            PokemonIDs.debug("EFFECT STORAGE FILE IS NULL?---------------------------------------------------------------------------");
-            return new HashSet<>();
-        }
         return storage.getKeys(false);
     }
-    
     static Particle getParticle(String key){
         try{
             return Particle.valueOf(storage.getString(key + ".particle").toUpperCase());
@@ -33,11 +28,9 @@ public class EffectFile {
             return null;
         }
     }
-    
     static Long timesPerSecondAsTicks(String key){
-        return Math.round(storage.getDouble(key + ".interval", 1.0)/20L);
+        return storage.getLong(key + ".interval", 20L);
     }
-    
     static double[] getOffset(String key){
         double x = storage.getDouble(key + ".offset.x", 0.0);
         double y = storage.getDouble(key + ".offset.y", 0.0);
@@ -45,10 +38,10 @@ public class EffectFile {
         double[] arr = {x,y,z};
         return arr;
     }
-    
-    static void reload(){
-        yml = new CustomYMLStorage(PokemonIDs.instance(),"ToggleEffects"+File.separator+"Effects.yml");
-        storage = yml.getYamlConfiguration();
-        yml.save();
+    static int getCount(String key){
+        return storage.getInt(key+".count",1);
+    }
+    static int getExtra(String key){
+        return storage.getInt(key+".extra",0);
     }
 }

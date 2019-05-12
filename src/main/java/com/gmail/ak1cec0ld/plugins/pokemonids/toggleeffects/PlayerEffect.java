@@ -12,8 +12,9 @@ public class PlayerEffect {
     private double[] offset;
     private int taskID;
     private Player owner;
+    private int amount;
 
-    public PlayerEffect(Player owner, String name, Particle type, long interval, double offsetx, double offsety, double offsetz){
+    public PlayerEffect(Player owner, String name, Particle type, long interval, double offsetx, double offsety, double offsetz, int amount){
         this.name = name;
         this.owner = owner;
         particle = type;
@@ -22,13 +23,12 @@ public class PlayerEffect {
         offset[0] = offsetx;
         offset[1] = offsety;
         offset[2] = offsetz;
+        this.amount = amount;
     }
     public void play(){
         taskID = PokemonIDs.instance().getServer().getScheduler().scheduleSyncRepeatingTask(PokemonIDs.instance(),() -> {
-            if(owner.hasMetadata("te-"+name)){
-                for(Player each : PokemonIDs.instance().getServer().getOnlinePlayers()) {
-                    each.spawnParticle(particle, owner.getLocation(), 1, offset[0], offset[1], offset[2]);
-                }
+            if(owner.hasMetadata("te-"+name) && owner.isOnline()){
+                owner.getWorld().spawnParticle(particle, owner.getLocation(), amount, offset[0], offset[1], offset[2]);
             } else {
                 PokemonIDs.instance().getServer().getScheduler().cancelTask(taskID);
             }

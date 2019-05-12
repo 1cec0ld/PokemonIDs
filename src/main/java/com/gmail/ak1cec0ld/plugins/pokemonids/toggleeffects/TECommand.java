@@ -4,6 +4,7 @@ import com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs;
 import io.github.jorelali.commandapi.api.CommandAPI;
 import io.github.jorelali.commandapi.api.CommandPermission;
 import io.github.jorelali.commandapi.api.arguments.Argument;
+import io.github.jorelali.commandapi.api.arguments.DynamicSuggestedStringArgument;
 import io.github.jorelali.commandapi.api.arguments.LiteralArgument;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -38,11 +39,13 @@ public class TECommand {
                     player.removeMetadata("te-"+each, PokemonIDs.instance());
                     return;
                 }
+                Particle particle = EffectFile.getParticle(each);
+                if(particle==null)return;
+                int count = EffectFile.getCount(each);
                 player.setMetadata("te-"+each,new FixedMetadataValue(PokemonIDs.instance(), true));
                 long interval = EffectFile.timesPerSecondAsTicks(each);
                 double[] offset = EffectFile.getOffset(each);
-                Particle particle = EffectFile.getParticle(each);
-                PlayerEffect effect = new PlayerEffect(player, each,particle,interval,offset[0],offset[1],offset[2]);
+                PlayerEffect effect = new PlayerEffect(player, each,particle,interval,offset[0],offset[1],offset[2],count);
                 effect.play();
             });
         }
