@@ -6,9 +6,13 @@ import io.github.jorelali.commandapi.api.CommandPermission;
 import io.github.jorelali.commandapi.api.arguments.*;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 class SBCommand {
 
@@ -21,6 +25,7 @@ class SBCommand {
         registerCreateCommand();
         registerRemoveCommand();
         registerChangeOwnerCommand();
+        registerShowCommand();
     }
 
     private void registerCreateCommand() {
@@ -59,6 +64,26 @@ class SBCommand {
             if(!SBStorage.hasBase(location))return;
             SBStorage.changeOwner(location,((Player)args[0]).getName());
             PokemonIDs.msgActionBar(player,"Changed owner name", ChatColor.RESET);
+        });
+    }
+    private void registerShowCommand(){
+        arguments = new LinkedHashMap<>();
+        arguments.put("action", new LiteralArgument("show"));
+        CommandAPI.getInstance().register(COMMAND_ALIAS,COMMAND_ALIASES,arguments,(sender,args) -> {
+            if(!(sender instanceof Player))return;
+            Player player = (Player)sender;
+            String name = player.getName();
+            for(Map.Entry<String,Location> each : SBStorage.getAllBases().entrySet()){
+                if(each.getKey().equals(name) || player.isOp()){
+                    player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX()+ ", " + each.getValue().getBlockY()+ ", "+ each.getValue().getBlockZ());
+                    LivingEntity glow = (LivingEntity)each.getValue().getWorld().spawnEntity(each.getValue(),EntityType.SHULKER);
+                    glow.setAI(false);
+                    glow.setInvulnerable(true);
+                    glow.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,99999,1,false,false));
+                    glow.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,99999,1,false,false));
+                    PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(), glow::remove,40L);
+                }
+            }
         });
     }
 }

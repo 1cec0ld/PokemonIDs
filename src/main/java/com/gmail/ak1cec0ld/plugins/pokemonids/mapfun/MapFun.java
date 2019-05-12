@@ -43,7 +43,7 @@ public class MapFun implements Listener{
         if(inRuins(event.getPlayer().getLocation())){
             Entity e = event.getRightClicked();
             if(e instanceof ItemFrame){
-                Bukkit.getLogger().info("Cancelled PIEE in ruins of alph");
+                PokemonIDs.debug("Cancelled PIEE in ruins of alph");
                 event.setCancelled(true);
                 rotate((ItemFrame)e);
             }
@@ -54,7 +54,7 @@ public class MapFun implements Listener{
     public void onEntityDamage(EntityDamageByEntityEvent event){
         if(inRuins(event.getDamager().getLocation())){
             if(event.getEntity() instanceof ItemFrame){
-                Bukkit.getLogger().info("Cancelled EDBEE in ruins of alph");
+                PokemonIDs.debug("Cancelled EDBEE in ruins of alph");
                 event.setCancelled(true);
                 rotate((ItemFrame)event.getEntity());
             }
@@ -64,7 +64,7 @@ public class MapFun implements Listener{
     @EventHandler()
     public void onInteract(PlayerInteractEvent event){
         if(inRuins(event.getPlayer().getLocation())){
-            Bukkit.getLogger().info("Cancelled PIE in ruins of alph");
+            PokemonIDs.debug("Cancelled PIE in ruins of alph");
             event.setCancelled(true);
         }
     }
@@ -104,7 +104,7 @@ public class MapFun implements Listener{
                 p.sendMessage(ChatColor.BLUE+"You hear a click from far away...");
                 Bukkit.getScheduler().runTaskLater(plugin, new Runnable(){
                     public void run() {
-                        Bukkit.getLogger().info("Teleporting someone to Sinjoh due to Ruins Of Alph Puzzle!");
+                        PokemonIDs.debug("Teleporting someone to Sinjoh due to Ruins Of Alph Puzzle!");
                         p.teleport(new Location(w,-1869,243,-257), TeleportCause.COMMAND);
                     }}, 50L);
             }
@@ -125,7 +125,7 @@ public class MapFun implements Listener{
                 }
             }
         } else {
-            Bukkit.getLogger().severe("PokemonIDs.mapfun.checkmaps: Bukkit.getWorld('Japan') is null");
+            PokemonIDs.debug("PokemonIDs.mapfun.checkmaps: Bukkit.getWorld('Japan') is null");
         }
         return true;
     }

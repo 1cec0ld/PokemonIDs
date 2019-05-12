@@ -64,21 +64,19 @@ public class PokemonIDs extends JavaPlugin{
         new SBManager();
         new BuildMode();
 
-
         new MapFun(this);
-        
-        
+
         if (!setupEconomy()) {
-            this.getLogger().severe("[autohouse] - Disabled due to no Vault found!");
+            this.getLogger().severe("[AutoHouse] - Disabled due to no Vault found!");
         } else {
             new AutoHouseController(this);
         }
 
         if(setWorldGuard() == null){
-            this.getLogger().severe("[fly] - Disabled due to no Worldguard found!");
+            this.getLogger().severe("[Fly] - Disabled due to no Worldguard found!");
             this.getLogger().severe("[RegionChoice] - Disabled due to no Worldguard found!");
             this.getLogger().severe("[PokeChoice] - Disabled due to no Worldguard found!");
-            this.getLogger().severe("[quickhome] - Disabled due to no Worldguard found!");
+            this.getLogger().severe("[QuickHome] - Disabled due to no Worldguard found!");
         } else {
             new FlyController(this);
             new ChoiceController(this);

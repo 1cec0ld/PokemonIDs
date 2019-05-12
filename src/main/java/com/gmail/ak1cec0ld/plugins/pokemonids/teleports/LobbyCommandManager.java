@@ -69,6 +69,7 @@ public class LobbyCommandManager {
             double back_y = player.getMetadata(KEY_Y).get(0).asDouble();
             double back_z = player.getMetadata(KEY_Z).get(0).asDouble();
             Location loc = new Location(Bukkit.getWorld(back_w),back_x,back_y,back_z);
+            PokemonIDs.debug(loc.toString());
             player.removeMetadata(KEY_W, PokemonIDs.instance());
             player.removeMetadata(KEY_X, PokemonIDs.instance());
             player.removeMetadata(KEY_Y, PokemonIDs.instance());

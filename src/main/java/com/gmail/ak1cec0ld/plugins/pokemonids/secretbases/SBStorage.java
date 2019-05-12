@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.HashMap;
 
 class SBStorage {
 
@@ -18,6 +19,22 @@ class SBStorage {
     SBStorage(){
         yml = new CustomYMLStorage(PokemonIDs.instance(),"PokemonIDs"+ File.separator+"SecretBases.yml");
         storage = yml.getYamlConfiguration();
+    }
+
+    static HashMap<String,Location> getAllBases(){
+        HashMap<String, Location> map = new HashMap<>();
+        for(String x : storage.getKeys(false)){
+            for(String y : storage.getConfigurationSection(x).getKeys(false)){
+                for(String z : storage.getConfigurationSection(x+"."+y).getKeys(false)){
+                    String path = x+"."+y+"."+z;
+                    String name = storage.getString(path+".owner","none");
+                    String world = storage.getString(path+".world","Japan");
+                    Location loc = new Location(Bukkit.getWorld(world),Integer.parseInt(x),Integer.parseInt(y),Integer.parseInt(z));
+                    map.put(name,loc);
+                }
+            }
+        }
+        return map;
     }
 
     static boolean hasBase(Location loc){
