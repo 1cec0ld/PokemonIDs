@@ -34,6 +34,9 @@ public class InteractListener implements Listener {
             if(!SBStorage.isLocked(base)){
                 setMetadata(event.getPlayer());
                 event.getPlayer().teleport(target);
+                PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(),() -> {
+                    PokemonIDs.msgActionBar(clicker,"Use '/go back' to leave!", ChatColor.YELLOW);
+                },4L);
             }
         } else if(SBStorage.isOwner(base, clicker.getName()) || clicker.isOp()){
             PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(),() -> {
