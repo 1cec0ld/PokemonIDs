@@ -15,6 +15,7 @@ import com.gmail.ak1cec0ld.plugins.pokemonids.quickhome.QuickHomeController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.secretbases.SBManager;
 import com.gmail.ak1cec0ld.plugins.pokemonids.ssparadox.BoatController;
 import com.gmail.ak1cec0ld.plugins.pokemonids.teleports.TeleportsController;
+import com.gmail.ak1cec0ld.plugins.pokemonids.toggleeffects.ToggleEffects;
 import com.gmail.ak1cec0ld.plugins.pokemonids.utility.UtilityManager;
 import com.sk89q.squirrelid.Profile;
 import com.sk89q.squirrelid.resolver.HttpRepositoryService;
@@ -63,6 +64,7 @@ public class PokemonIDs extends JavaPlugin{
         new BoatController(this);
         new SBManager();
         new BuildMode();
+        new ToggleEffects();
 
         new MapFun(this);
 
