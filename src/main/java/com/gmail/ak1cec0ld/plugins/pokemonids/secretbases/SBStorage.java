@@ -58,7 +58,8 @@ class SBStorage {
         z = storage.getInt(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".z",0);
         return new Location(Bukkit.getWorld(worldName),x,y,z);
     }
-    static void createBase(Location base, Location target, String ownerName){
+    static boolean createBase(Location base, Location target, String ownerName){
+        if(hasBase(base))return false;
         String locationPath = base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ();
         storage.set(locationPath+".world",target.getWorld().getName());
         storage.set(locationPath+".x",target.getBlockX());
@@ -68,6 +69,7 @@ class SBStorage {
         storage.set(locationPath+".locked",false);
         PokemonIDs.debug("Created new Secretbase from "+base.toString()+" to "+target.toString()+" for "+ownerName);
         yml.save();
+        return true;
     }
     static boolean isOwner(Location base, String name){
         return hasBase(base) && name.equals(storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".owner"));

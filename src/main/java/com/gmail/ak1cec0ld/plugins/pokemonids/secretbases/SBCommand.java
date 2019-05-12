@@ -37,8 +37,8 @@ class SBCommand {
             if(!(sender instanceof Player))return;
             Player player = (Player) sender;
             Location location = player.getTargetBlock(null, 20).getLocation();
-            SBStorage.createBase(location, (Location) args[1], ((Player)args[0]).getName());
-            PokemonIDs.msgActionBar(player, "Created Secret Base", ChatColor.RESET);
+            String responseMsg = (SBStorage.createBase(location, (Location) args[1], ((Player)args[0]).getName()))?"Created Secret Base":"A Base already exists here!";
+            PokemonIDs.msgActionBar(player, responseMsg, ChatColor.RESET);
         });
     }
     private void registerRemoveCommand(){
