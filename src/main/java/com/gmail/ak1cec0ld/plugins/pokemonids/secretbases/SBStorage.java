@@ -85,6 +85,7 @@ class SBStorage {
         if(!hasBase(base))return true;
         boolean state = storage.getBoolean(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",true);
         storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",!state);
+        yml.save();
         return !state;
     }
 }
