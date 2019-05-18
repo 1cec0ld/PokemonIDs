@@ -1,7 +1,6 @@
 package com.gmail.ak1cec0ld.plugins.pokemonids.toggleeffects;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.gmail.ak1cec0ld.plugins.pokemonids.CustomYMLStorage;

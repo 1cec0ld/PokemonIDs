@@ -32,7 +32,7 @@ public class FlyController {
     }
     
     public PlayerStorageManager getPlayerStorageManager(){
-        return plugin.getPlayerStorageManager();
+        return PokemonIDs.getPlayerStorageManager();
     }
     
     public PokemonIDs getPlugin(){

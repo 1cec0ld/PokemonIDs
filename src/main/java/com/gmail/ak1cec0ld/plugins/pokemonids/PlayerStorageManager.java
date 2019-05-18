@@ -9,8 +9,8 @@ public class PlayerStorageManager {
     private CustomYMLStorage yml;
     private YamlConfiguration storage;
     
-    public PlayerStorageManager(PokemonIDs plugin){
-        yml = new CustomYMLStorage(plugin,"PokemonIDs"+File.separator+"PlayerStorage.yml");
+    PlayerStorageManager(){
+        yml = new CustomYMLStorage(PokemonIDs.instance(),"PokemonIDs"+File.separator+"PlayerStorage.yml");
         storage = yml.getYamlConfiguration();
         yml.save();
     }
@@ -23,7 +23,7 @@ public class PlayerStorageManager {
         return storage.contains(uuid);
     }
     
-    public void removePlayer(String uuid){
+    void removePlayer(String uuid){
         storage.set(uuid, null);
         yml.save();
     }
@@ -77,10 +77,6 @@ public class PlayerStorageManager {
     public boolean hasBadge(String uuid, String region, int value){
         int regionbadges = storage.getInt(uuid+"."+region+"badges",0);
         int binary = (int) Math.pow(10, value-1);
-        return ((int)(regionbadges % ( binary * 10 ) ) / binary) > 0;
-    }
-    
-    public int getBadges(String uuid, String region){
-        return storage.getInt(uuid+"."+region+"badges", 0);
+        return (regionbadges % ( binary * 10 ) ) / binary > 0;
     }
 }

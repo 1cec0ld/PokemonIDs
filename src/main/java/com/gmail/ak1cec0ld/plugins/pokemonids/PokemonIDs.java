@@ -50,7 +50,7 @@ public class PokemonIDs extends JavaPlugin{
     
     public void onEnable(){
         instance = this;
-        strMan = new PlayerStorageManager(this);
+        strMan = new PlayerStorageManager();
         this.getServer().getPluginCommand("pokemonids").setExecutor(new PIDCommand(this));
         
         new CutController(this);
@@ -60,7 +60,6 @@ public class PokemonIDs extends JavaPlugin{
         
         new BadgesController(this);
         new TeleportsController(this);
-        new UtilityManager();
         new BoatController(this);
         new SBManager();
         new BuildMode();
@@ -79,10 +78,12 @@ public class PokemonIDs extends JavaPlugin{
             this.getLogger().severe("[RegionChoice] - Disabled due to no Worldguard found!");
             this.getLogger().severe("[PokeChoice] - Disabled due to no Worldguard found!");
             this.getLogger().severe("[QuickHome] - Disabled due to no Worldguard found!");
+            this.getLogger().severe("[Utilities: Where,AntiSpawner,HoloText] - Disabled due to no Worldguard found!");
         } else {
             new FlyController(this);
             new ChoiceController(this);
             new QuickHomeController(this);
+            new UtilityManager();
         }
         
     }
