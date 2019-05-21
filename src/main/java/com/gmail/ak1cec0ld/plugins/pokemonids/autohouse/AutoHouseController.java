@@ -10,6 +10,7 @@ public class AutoHouseController {
     public AutoHouseController(PokemonIDs pl){
         new AutoHouseStorageManager();
         new AutoHouseConfigManager();
+        new AutoHouseTaskManager();
         pl.getServer().getPluginManager().registerEvents(new AutoHouseInteractListener(), pl);
     }
     

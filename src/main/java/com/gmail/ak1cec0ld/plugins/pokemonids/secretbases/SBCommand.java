@@ -36,8 +36,13 @@ class SBCommand {
             if(!(sender instanceof Player))return;
             Player player = (Player) sender;
             Location location = player.getTargetBlock(null, 20).getLocation();
-            String responseMsg = (SBStorage.createBase(location, (Location) args[1], ((Player)args[0]).getName()))?"Created Secret Base":"A Base already exists here!";
-            PokemonIDs.msgActionBar(player, responseMsg, ChatColor.RESET);
+            if(SBStorage.createBase(location, (Location) args[1], ((Player)args[0]).getName())){
+                PokemonIDs.msgActionBar(player, "Created Secret Base", ChatColor.RESET);
+                spawnGlowBlock((Location)args[1]);
+            } else {
+                PokemonIDs.msgActionBar(player, "A Base already exists here!", ChatColor.RESET);
+            }
+
         });
     }
     private void registerRemoveCommand(){
@@ -68,21 +73,29 @@ class SBCommand {
     private void registerShowCommand(){
         arguments = new LinkedHashMap<>();
         arguments.put("action", new LiteralArgument("show"));
-        CommandAPI.getInstance().register(COMMAND_ALIAS,COMMAND_ALIASES,arguments,(sender,args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,COMMAND_ALIASES,arguments,(sender,args) -> {
             if(!(sender instanceof Player))return;
             Player player = (Player)sender;
             String name = player.getName();
             for(Map.Entry<String,Location> each : SBStorage.getAllBases().entrySet()){
-                if(each.getKey().equals(name) || player.isOp()){
-                    player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX()+ ", " + each.getValue().getBlockY()+ ", "+ each.getValue().getBlockZ());
-                    LivingEntity glow = (LivingEntity)each.getValue().getWorld().spawnEntity(each.getValue(),EntityType.SHULKER);
-                    glow.setAI(false);
-                    glow.setInvulnerable(true);
-                    glow.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,99999,1,false,false));
-                    glow.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,99999,1,false,false));
-                    PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(), glow::remove,40L);
+                if(each.getKey().equals(name) || player.hasPermission("secretbase.showall")){
+                    player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
+                    if(each.getValue().getChunk().isLoaded()) {
+                        spawnGlowBlock(each.getValue());
+                        player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
+                    } else {
+                        player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ() + " - Unloaded Chunk!");
+                    }
                 }
             }
         });
+    }
+    private void spawnGlowBlock(Location where){
+        LivingEntity glow = (LivingEntity) where.getWorld().spawnEntity(where, EntityType.SHULKER);
+        glow.setAI(false);
+        glow.setInvulnerable(true);
+        glow.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 1, false, false));
+        glow.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 99999, 1, false, false));
+        PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(), glow::remove, 30L);
     }
 }

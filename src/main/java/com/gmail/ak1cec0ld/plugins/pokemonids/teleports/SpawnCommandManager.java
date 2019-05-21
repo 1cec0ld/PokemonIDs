@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 
 public class SpawnCommandManager implements CommandExecutor {
     private static TeleportsController controller;
-    private static Location kanto = new Location(Bukkit.getWorld("Japan"),-586.0,67.0,492.0,0.0F,0.0F);
-    private static Location johto = new Location(Bukkit.getWorld("Japan"),-1262.0,67.0,558.0,0.0F,0.0F);
-    private static Location hoenn = new Location(Bukkit.getWorld("Japan"),-4076.0,69.0,1546.0,90.0F,0.0F);
-    private static Location sinnoh = new Location(Bukkit.getWorld("Japan"),580.0,67.0,-3129.0,0.0F,0.0F);
+    private static Location kanto = new Location(Bukkit.getWorld("Japan"),-586.0,67.0,495.0,0.0F,0.0F);
+    private static Location johto = new Location(Bukkit.getWorld("Japan"),-1262.0,67.0,561.0,0.0F,0.0F);
+    private static Location hoenn = new Location(Bukkit.getWorld("Japan"),-4077.0,69.0,1546.0,90.0F,0.0F);
+    private static Location sinnoh = new Location(Bukkit.getWorld("Japan"),581.0,67.0,-3127.0,0.0F,0.0F);
     private static Location unova = new Location(Bukkit.getWorld("Japan"),-743.0,51.0,-504.0,90.0F,0.0F);
     private static Location kalos = new Location(Bukkit.getWorld("Japan"),-743.0,51.0,-504.0,90.0F,0.0F);
     private static Location alola = new Location(Bukkit.getWorld("Japan"),-743.0,51.0,-504.0,90.0F,0.0F);
@@ -48,31 +48,34 @@ public class SpawnCommandManager implements CommandExecutor {
     
     public static void spawn(Player player){
         int choice = controller.getPlugin().getPlayerStorageManager().getRegionChoice(player.getUniqueId().toString());
+        Location destination = tutorial;
         switch(choice){
             case 0:
-                player.teleport(kanto);
+                destination =(kanto);
                 break;
             case 1:
-                player.teleport(johto);
+                destination =(johto);
                 break;
             case 2:
-                player.teleport(hoenn);
+                destination =(hoenn);
                 break;
             case 3:
-                player.teleport(sinnoh);
+                destination =(sinnoh);
                 break;
             case 4:
-                player.teleport(unova);
+                destination =(unova);
                 break;
             case 5:
-                player.teleport(kalos);
+                destination =(kalos);
                 break;
             case 6:
-                player.teleport(alola);
+                destination =(alola);
                 break;
             default:
-                player.teleport(tutorial);
+                destination =(tutorial);
                 break;
         }
+        destination.getWorld().getChunkAt(destination).load(false);
+        player.teleport(destination);
     }
 }

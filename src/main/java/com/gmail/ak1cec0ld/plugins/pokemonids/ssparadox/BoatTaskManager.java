@@ -11,54 +11,51 @@ public class BoatTaskManager {
     
     final long timeBeforeArrival = 20*30;
     
-    final long dockVermilion  = 1000;
-    final long leaveVermilion = dockVermilion + 1200;
-    final long dockOlivine    = 3950;
-    final long leaveOlivine   = dockOlivine + 1200;
-    final long dockSlateport  = 7390;
-    final long leaveSlateport = dockSlateport + 1200;
-    final long dockLilycove   = 9395;
-    final long leaveLilycove  = dockLilycove + 1200;
-    final long dockCanalave   = 16566;
-    final long leaveCanalave  = dockCanalave + 1200;
-    final long dockSnowpoint  = 18970;
-    final long leaveSnowpoint = dockSnowpoint + 1200;
+    private final long dockVermilion  = 1000;
+    private final long leaveVermilion = dockVermilion + 1200;
+    private final long dockOlivine    = 3950;
+    private final long leaveOlivine   = dockOlivine + 1200;
+    private final long dockSlateport  = 7390;
+    private final long leaveSlateport = dockSlateport + 1200;
+    private final long dockLilycove   = 9395;
+    private final long leaveLilycove  = dockLilycove + 1200;
+    private final long dockCanalave   = 16566;
+    private final long leaveCanalave  = dockCanalave + 1200;
+    private final long dockSnowpoint  = 18970;
+    private final long leaveSnowpoint = dockSnowpoint + 1200;
     
-    public BoatTaskManager(BoatController boatController) {
+    BoatTaskManager(BoatController boatController) {
         this.controller = boatController;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(boatController.getPlugin(), boatCheck, 20L, 20L);
     }
     
-    private Runnable boatCheck = new Runnable(){
-        @Override
-        public void run() {
-            long currentTime = Bukkit.getWorld("Japan").getTime();
-            if( dockVermilion-timeBeforeArrival < currentTime && currentTime <= leaveVermilion ){
-                messageBoat("Vermilion");
-            }
-            if( dockVermilion < currentTime && currentTime <= leaveVermilion ){
-                move(BoatController.vermilion,BoatController.ssparadox);
-                move(BoatController.ssparadox,BoatController.vermilion);
-            } else if( dockOlivine < currentTime && currentTime <= leaveOlivine ){
-                move(BoatController.olivine,BoatController.ssparadox);
-                move(BoatController.ssparadox,BoatController.olivine);
-            } else if( dockSlateport < currentTime && currentTime <= leaveSlateport ){
-                move(BoatController.slateport,BoatController.ssparadox);
-                move(BoatController.ssparadox,BoatController.slateport);
-            } else if( dockLilycove < currentTime && currentTime <= leaveLilycove ){
-                move(BoatController.lilycove,BoatController.ssparadox);
-                move(BoatController.ssparadox,BoatController.lilycove);
-            } else if( dockCanalave < currentTime && currentTime <= leaveCanalave ){
-                move(BoatController.canalave,BoatController.ssparadox);
-                move(BoatController.ssparadox,BoatController.canalave);
-            } else if( dockSnowpoint < currentTime && currentTime <= leaveSnowpoint ){
-                move(BoatController.snowpoint,BoatController.ssparadox);
-                move(BoatController.ssparadox,BoatController.snowpoint);
-            }
+    private Runnable boatCheck = () -> {
+        long currentTime = Bukkit.getWorld("Japan").getTime();
+        if( dockVermilion-timeBeforeArrival < currentTime && currentTime <= leaveVermilion ){
+            messageBoat("Vermilion");
+        }
+        if( dockVermilion < currentTime && currentTime <= leaveVermilion ){
+            move(BoatController.vermilion,BoatController.ssparadox);
+            move(BoatController.ssparadox,BoatController.vermilion);
+        } else if( dockOlivine < currentTime && currentTime <= leaveOlivine ){
+            move(BoatController.olivine,BoatController.ssparadox);
+            move(BoatController.ssparadox,BoatController.olivine);
+        } else if( dockSlateport < currentTime && currentTime <= leaveSlateport ){
+            move(BoatController.slateport,BoatController.ssparadox);
+            move(BoatController.ssparadox,BoatController.slateport);
+        } else if( dockLilycove < currentTime && currentTime <= leaveLilycove ){
+            move(BoatController.lilycove,BoatController.ssparadox);
+            move(BoatController.ssparadox,BoatController.lilycove);
+        } else if( dockCanalave < currentTime && currentTime <= leaveCanalave ){
+            move(BoatController.canalave,BoatController.ssparadox);
+            move(BoatController.ssparadox,BoatController.canalave);
+        } else if( dockSnowpoint < currentTime && currentTime <= leaveSnowpoint ){
+            move(BoatController.snowpoint,BoatController.ssparadox);
+            move(BoatController.ssparadox,BoatController.snowpoint);
         }
     };
 
-    protected void move(Location from, Location to) {
+    private void move(Location from, Location to) {
         for(Player each : from.getWorld().getPlayers()){
             if(each.getLocation().distance(from) < 4 && !hasTeleported(each)){
                 each.teleport(to);
@@ -67,7 +64,7 @@ public class BoatTaskManager {
             }
         }
     }
-    protected void messageBoat(String string) {
+    private void messageBoat(String string) {
         // TODO Auto-generated method stub
         
     }
@@ -78,14 +75,10 @@ public class BoatTaskManager {
             @Override
             public void run() {
                 player.removeMetadata("tpd", controller.getPlugin());
-                
             }}, 100L);
     }
 
     private boolean hasTeleported(Player player) {
-        if(!player.getMetadata("tpd").isEmpty()){
-            return player.getMetadata("tpd").get(0).asBoolean();
-        }
-        return false;
+        return !player.getMetadata("tpd").isEmpty() && player.getMetadata("tbd").get(0).asBoolean();
     }
 }

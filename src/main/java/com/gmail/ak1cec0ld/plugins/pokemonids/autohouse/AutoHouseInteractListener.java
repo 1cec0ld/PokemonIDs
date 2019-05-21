@@ -86,7 +86,7 @@ public class AutoHouseInteractListener implements Listener{
                 break;
             case 1:
                 NumberFormat formatter = NumberFormat.getCurrencyInstance();
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNot enough money! You have &4$" + formatter.format(PokemonIDs.getEconomy().getBalance(player)) + "&f/&2$" + cost + "!"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cNot enough money! You have &4" + formatter.format(PokemonIDs.getEconomy().getBalance(player)) + "&f/&2$" + cost + "!"));
                 break;
             case 2:
                 String uuid = player.getUniqueId().toString();
