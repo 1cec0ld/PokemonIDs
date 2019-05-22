@@ -29,7 +29,9 @@ public class WildsCommandManager implements CommandExecutor {
             } else if(args.length == 1) {
                 for(World each : Bukkit.getWorlds()) {
                     if (each.getName().equalsIgnoreCase(args[0])) {
-                        processCommand((Player) sender, each.getName());
+                        if(!(args[0].equalsIgnoreCase("Japan") || args[0].equalsIgnoreCase("Japan_nether"))) {
+                            processCommand((Player) sender, each.getName());
+                        }
                     }
                 }
             } else {

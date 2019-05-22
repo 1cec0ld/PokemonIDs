@@ -79,7 +79,7 @@ class SBCommand {
             String name = player.getName();
             for(Map.Entry<String,Location> each : SBStorage.getAllBases().entrySet()){
                 if(each.getKey().equals(name) || player.hasPermission("secretbase.showall")){
-                    player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
+                    //player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
                     if(each.getValue().getChunk().isLoaded()) {
                         spawnGlowBlock(each.getValue());
                         player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
