@@ -70,12 +70,7 @@ public class BoatTaskManager {
     }
     private void markTeleported(Player player) {
         player.setMetadata("tpd", new FixedMetadataValue(controller.getPlugin(), true));
-        Bukkit.getScheduler().scheduleSyncDelayedTask(controller.getPlugin(), new Runnable(){
-
-            @Override
-            public void run() {
-                player.removeMetadata("tpd", controller.getPlugin());
-            }}, 100L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(controller.getPlugin(), () -> player.removeMetadata("tpd", controller.getPlugin()), 100L);
     }
 
     private boolean hasTeleported(Player player) {

@@ -173,8 +173,6 @@ public class PokemonIDs extends JavaPlugin{
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(message).color(color).create());
     }
     public static void debug(String string){
-        if(debugging){
-            Bukkit.getLogger().info("[PokemonIDs-debug] "+string);
-        }
+        Bukkit.getLogger().info("[PokemonIDs-debug] "+string);
     }
 }

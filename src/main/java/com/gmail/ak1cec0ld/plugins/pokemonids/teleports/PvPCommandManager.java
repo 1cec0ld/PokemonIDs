@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class PvPCommandManager implements CommandExecutor {
 
-    private static Location pvpzone = new Location(Bukkit.getWorld("Wild"),0.5,0.1,0.5,0.0F,0.0F);
+    private static Location pvpzone = new Location(Bukkit.getWorld("Wild2"),0.5,0.1,0.5,0.0F,0.0F);
     private Random r = new Random();
     private int WILD_OFFSET = 150000;
     
@@ -47,7 +47,7 @@ public class PvPCommandManager implements CommandExecutor {
             attempts++;
             x2 = WILD_OFFSET+Math.floor(loc.getX()+r.nextInt(41)-20);
             z2 = WILD_OFFSET+Math.floor(loc.getZ()+r.nextInt(41)-20);
-            l = new Location(Bukkit.getWorld("Wild"), x2, 256, z2);
+            l = new Location(Bukkit.getWorld("Wild2"), x2, 256, z2);
             l2 = l.getWorld().getHighestBlockAt(l).getLocation();
             if(isSafe(l2.getBlock().getRelative(BlockFace.DOWN).getType())){
                 return l2;

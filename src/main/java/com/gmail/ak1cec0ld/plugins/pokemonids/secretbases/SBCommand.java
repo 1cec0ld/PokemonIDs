@@ -21,10 +21,18 @@ class SBCommand {
     private LinkedHashMap<String, Argument> arguments;
 
     SBCommand(){
+        registerBaseCommand();
         registerCreateCommand();
         registerRemoveCommand();
         registerChangeOwnerCommand();
         registerShowCommand();
+    }
+
+    private void registerBaseCommand(){
+        arguments = new LinkedHashMap<>();
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,COMMAND_ALIASES,arguments,(sender, args)->{
+            sender.sendMessage("/sb show|create|remove|changeowner");
+        });
     }
 
     private void registerCreateCommand() {
@@ -79,7 +87,6 @@ class SBCommand {
             String name = player.getName();
             for(Map.Entry<String,Location> each : SBStorage.getAllBases().entrySet()){
                 if(each.getKey().equals(name) || player.hasPermission("secretbase.showall")){
-                    //player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
                     if(each.getValue().getChunk().isLoaded()) {
                         spawnGlowBlock(each.getValue());
                         player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());

@@ -25,17 +25,9 @@ public class WildsCommandManager implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player){
             if(args.length == 0){
-                processCommand((Player)sender,"Wild");
-            } else if(args.length == 1) {
-                for(World each : Bukkit.getWorlds()) {
-                    if (each.getName().equalsIgnoreCase(args[0])) {
-                        if(!(args[0].equalsIgnoreCase("Japan") || args[0].equalsIgnoreCase("Japan_nether"))) {
-                            processCommand((Player) sender, each.getName());
-                        }
-                    }
-                }
+                processCommand((Player)sender,"Wild2");
             } else {
-                sender.sendMessage("Use /wild or /wild {worldName}");
+                sender.sendMessage("Use /wild");
             }
         }
         return false;
