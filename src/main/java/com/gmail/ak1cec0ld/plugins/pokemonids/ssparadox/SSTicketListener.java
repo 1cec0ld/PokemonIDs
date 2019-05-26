@@ -19,13 +19,11 @@ import org.bukkit.inventory.ItemStack;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 
-public class BoatInteractListener implements Listener{
-    
+public class SSTicketListener implements Listener{
 
     private static TextComponent U = new TextComponent("Ü");  //the ss paradox, it changes position and hoverevent
-    private static TextComponent x = new TextComponent("x");  //the player, it changes position
     private static TextComponent w = new TextComponent("_");
-    private static TextComponent I = new TextComponent("1");
+    private static TextComponent I = new TextComponent("I");
     private static TextComponent N = new TextComponent("N");
     private static TextComponent M = new TextComponent("M");
     private static TextComponent m = new TextComponent("^");
@@ -37,11 +35,11 @@ public class BoatInteractListener implements Listener{
     private static TextComponent S = new TextComponent("S");
     private static TextComponent s = new TextComponent("S");
     private static TextComponent V = new TextComponent("V");
-    private TreeMap<Long, Container> map = new TreeMap<>();
-    private List<List<BaseComponent>> Japan;
+    private static TreeMap<Long, Container> map = new TreeMap<>();
+    private static List<List<BaseComponent>> Japan;
     
     
-    BoatInteractListener(){
+    SSTicketListener(){
         map.put(0L,     new Container(34,19, "En route: Vermilion"));
         map.put(130L,   new Container(34,19, "En route: Vermilion"));
         map.put(570L,   new Container(31,20, "En route: Vermilion"));
@@ -86,19 +84,18 @@ public class BoatInteractListener implements Listener{
         map.put(22810L, new Container(38,14, "En route: Vermilion"));
         map.put(23250L, new Container(37,16, "En route: Vermilion"));
         map.put(23690L, new Container(36,18, "En route: Vermilion"));
-        
+
         initializeMarkers();
     }
-    
+
     private void initializeMarkers(){
         w.setColor(ChatColor.DARK_BLUE);
-        I.setColor(ChatColor.DARK_GREEN); 
+        I.setColor(ChatColor.DARK_GREEN);
         N.setColor(ChatColor.DARK_GREEN);
         M.setColor(ChatColor.DARK_GREEN);
         m.setColor(ChatColor.DARK_GREEN);
         n.setColor(ChatColor.DARK_GREEN);
         z.setColor(ChatColor.DARK_GREEN);
-        x.setHoverEvent( new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("You are here!").create()));
         L.setColor(ChatColor.LIGHT_PURPLE);
         L.setHoverEvent( new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Lilycove City").create()));
         O.setColor(ChatColor.LIGHT_PURPLE);
@@ -149,12 +146,16 @@ public class BoatInteractListener implements Listener{
         if(!event.getHand().equals(EquipmentSlot.HAND))return;
         if(event.getItem()==null)return;
         ItemStack item = event.getItem();
-        if(!item.hasItemMeta())return;
-        if(!item.getItemMeta().hasLore())return;
-        if(!item.getItemMeta().getLore().get(0).equalsIgnoreCase("§7Permits Entry to the SS Paradox"))
-        if(!item.getType().equals(Material.PAPER))return;
+        if(!isSSTicket(item))return;
         
         processEvent(event);
+    }
+
+    public static boolean isSSTicket(ItemStack item){
+        if(!item.hasItemMeta())return false;
+        if(!item.getItemMeta().hasLore())return false;
+        if(!item.getItemMeta().getLore().get(0).equalsIgnoreCase("§7Permits Entry to the SS Paradox")) return false;
+        return item.getType().equals(Material.PAPER);
     }
     
     private void processEvent(PlayerInteractEvent event){
@@ -163,7 +164,7 @@ public class BoatInteractListener implements Listener{
         Container c = mappedValue(map,currentTime);
         initializeJapan();
         if (c == null) return;
-        placeBoatOnJapan(c);  //the boat overwrites the player if it is where they are
+        placeBoatOnJapan(c);
         sendEditedMap(player);
     }
 
@@ -174,11 +175,11 @@ public class BoatInteractListener implements Listener{
     
     private void sendEditedMap(Player player){
         for (List<BaseComponent> baseComponents : Japan) {
-            player.spigot().sendMessage(BaseComponentFromArrayList(baseComponents));
+            player.spigot().sendMessage(baseComponentFromArrayList(baseComponents));
         }
     }
     
-    private BaseComponent BaseComponentFromArrayList(List<BaseComponent> list){
+    private BaseComponent baseComponentFromArrayList(List<BaseComponent> list){
         TextComponent store = new TextComponent();
         for(BaseComponent eachItem : list){
             store.addExtra(eachItem);
@@ -188,12 +189,11 @@ public class BoatInteractListener implements Listener{
     
     private static Container mappedValue(TreeMap<Long, Container> map2, long currentTime){
         Entry<Long, Container> e = map2.floorEntry(currentTime);
-        if(e!=null){
+        if(e != null){
             e = map2.lowerEntry(currentTime);
         }
         return e == null ? null : e.getValue();
     }
-    
     private class Container{
         int col, row;
         String hoverText;

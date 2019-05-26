@@ -60,7 +60,7 @@ public class PokemonIDs extends JavaPlugin{
         
         new BadgesController(this);
         new TeleportsController(this);
-        new BoatController(this);
+        new BoatController();
         new SBManager();
         new BuildMode();
         new ToggleEffects();
