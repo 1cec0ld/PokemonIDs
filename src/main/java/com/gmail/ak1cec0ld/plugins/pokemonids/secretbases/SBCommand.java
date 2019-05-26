@@ -40,8 +40,9 @@ class SBCommand {
         arguments.put("action", new LiteralArgument("create"));
         arguments.put("owner", new PlayerArgument());
         arguments.put("destination", new LocationArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.fromString("secretbase.create"), COMMAND_ALIASES, arguments, (sender, args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE, COMMAND_ALIASES, arguments, (sender, args) -> {
             if(!(sender instanceof Player))return;
+            if(!sender.hasPermission("secretbase.create"))return;
             Player player = (Player) sender;
             Location location = player.getTargetBlock(null, 20).getLocation();
             if(SBStorage.createBase(location, (Location) args[1], ((Player)args[0]).getName())){
@@ -56,8 +57,9 @@ class SBCommand {
     private void registerRemoveCommand(){
         arguments = new LinkedHashMap<>();
         arguments.put("action",new LiteralArgument("remove"));
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.fromString("secretbase.remove"),COMMAND_ALIASES,arguments, (sender,args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,COMMAND_ALIASES,arguments, (sender,args) -> {
             if(!(sender instanceof Player))return;
+            if(!sender.hasPermission("secretbase.remove"))return;
             Player player = (Player)sender;
             Location location = player.getTargetBlock(null,20).getLocation();
             if(!SBStorage.hasBase(location))return;
@@ -69,8 +71,9 @@ class SBCommand {
         arguments = new LinkedHashMap<>();
         arguments.put("action",new LiteralArgument("changeowner"));
         arguments.put("new-owner", new PlayerArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.fromString("secretbase.changeowner"),COMMAND_ALIASES,arguments, (sender,args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,COMMAND_ALIASES,arguments, (sender,args) -> {
             if(!(sender instanceof Player))return;
+            if(!sender.hasPermission("secretbase.changeowner"))return;
             Player player = (Player)sender;
             Location location = player.getTargetBlock(null,20).getLocation();
             if(!SBStorage.hasBase(location))return;
