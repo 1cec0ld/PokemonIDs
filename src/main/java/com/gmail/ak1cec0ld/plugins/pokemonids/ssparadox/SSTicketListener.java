@@ -152,6 +152,7 @@ public class SSTicketListener implements Listener{
     }
 
     public static boolean isSSTicket(ItemStack item){
+        if(item == null)return false;
         if(!item.hasItemMeta())return false;
         if(!item.getItemMeta().hasLore())return false;
         if(!item.getItemMeta().getLore().get(0).equalsIgnoreCase("§7Permits Entry to the SS Paradox")) return false;
