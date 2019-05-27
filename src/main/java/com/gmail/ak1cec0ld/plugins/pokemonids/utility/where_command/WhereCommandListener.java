@@ -18,7 +18,6 @@ import java.util.LinkedHashMap;
 public class WhereCommandListener {
 
     private static String COMMAND_ALIAS = "where";
-    private static String[] COMMAND_ALIASES = {"whatregionsamiin"};
 
     private LinkedHashMap<String, Argument> arguments;
 
@@ -28,7 +27,7 @@ public class WhereCommandListener {
     }
 
     private void registerCommand(){
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE, COMMAND_ALIASES,arguments, (sender, args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE, arguments, (sender, args) -> {
             if(!(sender instanceof Player))return;
             Player player = (Player)sender;
             player.sendMessage("You are in: ["+listRegionsAt(player.getLocation())+"] in "+player.getWorld().getName());
@@ -37,7 +36,7 @@ public class WhereCommandListener {
     private void registerCommandWithPlayer(){
         arguments = new LinkedHashMap<>();
         arguments.put("who", new PlayerArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,COMMAND_ALIASES,arguments,(sender,args)->{
+        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,arguments,(sender,args)->{
             sender.sendMessage("That player is at: ["+listRegionsAt(((Player)args[0]).getLocation())+"] in "+((Player)args[0]).getWorld().getName());
         });
     }

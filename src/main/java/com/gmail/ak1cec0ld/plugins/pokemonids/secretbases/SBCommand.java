@@ -15,8 +15,7 @@ import java.util.Map;
 
 class SBCommand {
 
-    private static String COMMAND_ALIAS = "secretbase";
-    private static String[] COMMAND_ALIASES = {"sb"};
+    private static String COMMAND_ALIAS = "sb";
 
     private LinkedHashMap<String, Argument> arguments;
 
@@ -30,7 +29,7 @@ class SBCommand {
 
     private void registerBaseCommand(){
         arguments = new LinkedHashMap<>();
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,COMMAND_ALIASES,arguments,(sender, args)->{
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments,(sender, args)->{
             sender.sendMessage("/sb show|create|remove|changeowner");
         });
     }
@@ -40,7 +39,7 @@ class SBCommand {
         arguments.put("action", new LiteralArgument("create"));
         arguments.put("owner", new PlayerArgument());
         arguments.put("destination", new LocationArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE, COMMAND_ALIASES, arguments, (sender, args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,  arguments, (sender, args) -> {
             if(!(sender instanceof Player))return;
             if(!sender.hasPermission("secretbase.create"))return;
             Player player = (Player) sender;
@@ -57,7 +56,7 @@ class SBCommand {
     private void registerRemoveCommand(){
         arguments = new LinkedHashMap<>();
         arguments.put("action",new LiteralArgument("remove"));
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,COMMAND_ALIASES,arguments, (sender,args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,arguments, (sender,args) -> {
             if(!(sender instanceof Player))return;
             if(!sender.hasPermission("secretbase.remove"))return;
             Player player = (Player)sender;
@@ -71,7 +70,7 @@ class SBCommand {
         arguments = new LinkedHashMap<>();
         arguments.put("action",new LiteralArgument("changeowner"));
         arguments.put("new-owner", new PlayerArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,COMMAND_ALIASES,arguments, (sender,args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
             if(!(sender instanceof Player))return;
             if(!sender.hasPermission("secretbase.changeowner"))return;
             Player player = (Player)sender;
@@ -84,7 +83,7 @@ class SBCommand {
     private void registerShowCommand(){
         arguments = new LinkedHashMap<>();
         arguments.put("action", new LiteralArgument("show"));
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,COMMAND_ALIASES,arguments,(sender,args) -> {
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments,(sender,args) -> {
             if(!(sender instanceof Player))return;
             Player player = (Player)sender;
             String name = player.getName();
