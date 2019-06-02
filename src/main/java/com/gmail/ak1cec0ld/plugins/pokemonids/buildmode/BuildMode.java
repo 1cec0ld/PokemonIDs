@@ -19,6 +19,7 @@ public class BuildMode {
         new GameModeChange();
         new ProjectileThrow();
         new PotionEffectChange();
+        new Attack();
     }
 
     static void turnBuildOn(Player player, String type){
