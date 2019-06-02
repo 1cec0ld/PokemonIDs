@@ -21,7 +21,7 @@ import net.md_5.bungee.api.chat.*;
 
 public class SSTicketListener implements Listener{
 
-    private static TextComponent U = new TextComponent("Ü");  //the ss paradox, it changes position and hoverevent
+    private static TextComponent U = new TextComponent("\u058D");  //the ss paradox, it changes position and hoverevent
     private static TextComponent w = new TextComponent("_");
     private static TextComponent I = new TextComponent("I");
     private static TextComponent N = new TextComponent("N");
