@@ -10,7 +10,7 @@ commands:
     description: Helps you fly.
   badges:
     description: Helps manage your badges.
-  pokemonids:
+  pokemonid:
     description: Manages PokemonIDs the plugin
   houses:
     description: Show the Key and List all houses.

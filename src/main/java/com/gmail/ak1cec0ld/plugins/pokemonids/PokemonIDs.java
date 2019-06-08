@@ -46,12 +46,11 @@ public class PokemonIDs extends JavaPlugin{
     private static Economy econ = null;
     private static PlayerStorageManager strMan;
     private static PokemonIDs instance;
-    private static boolean debugging = true;
     
     public void onEnable(){
         instance = this;
         strMan = new PlayerStorageManager();
-        this.getServer().getPluginCommand("pokemonids").setExecutor(new PIDCommand(this));
+        new PIDCommand();
         
         new CutController(this);
         new RSmashController(this);
@@ -126,17 +125,15 @@ public class PokemonIDs extends JavaPlugin{
         RegionContainer getRC = WorldGuard.getInstance().getPlatform().getRegionContainer();
         HashSet<ProtectedRegion> store = new HashSet<>();
         ApplicableRegionSet set = null;
-        if (getRC != null) {
-            set =  getRC.createQuery().getApplicableRegions(BukkitAdapter.adapt(loc));
-        }
-        if (set != null) {
-            for(ProtectedRegion region : set){
-                store.add(region);
-                ProtectedRegion regCopy = region;
-                while(regCopy.getParent()!=null){
-                    store.add(regCopy.getParent());
-                    regCopy = regCopy.getParent();
-                }
+        if (getRC == null) return false;
+        set =  getRC.createQuery().getApplicableRegions(BukkitAdapter.adapt(loc));
+        if (set == null) return false;
+        for(ProtectedRegion region : set){
+            store.add(region);
+            ProtectedRegion regCopy = region;
+            while(regCopy.getParent()!=null){
+                store.add(regCopy.getParent());
+                regCopy = regCopy.getParent();
             }
         }
         for(ProtectedRegion region : store){
