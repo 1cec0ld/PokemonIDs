@@ -22,6 +22,7 @@ public class BuildMode {
         new PotionEffectChange();
         new Attack();
         new BlockEdit();
+        new InteractEntity();
     }
 
     static void turnBuildOn(Player player, String type){
