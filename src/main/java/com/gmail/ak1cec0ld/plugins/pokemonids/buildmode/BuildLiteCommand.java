@@ -34,6 +34,7 @@ class BuildLiteCommand {
             if(!(sender instanceof Player))return;
             Player player = (Player)sender;
             if(!player.getWorld().getName().toLowerCase().equals(Bukkit.getWorld("Japan").getName().toLowerCase()))return;
+            if(!BuildMode.inBuildZone(player.getLocation()))return;
             if(BuildMode.isNotBuilding(player)){
                 BuildMode.turnBuildOn(player, "builder");
             } else {
@@ -46,6 +47,7 @@ class BuildLiteCommand {
             if(!(sender instanceof Player))return;
             Player player = (Player)sender;
             if(!player.getWorld().getName().toLowerCase().equals(Bukkit.getWorld("Japan").getName().toLowerCase()))return;
+            if(!BuildMode.inBuildZone(player.getLocation()))return;
             switch(param){
                 case "on":
                     BuildMode.turnBuildOn(player,"builder");

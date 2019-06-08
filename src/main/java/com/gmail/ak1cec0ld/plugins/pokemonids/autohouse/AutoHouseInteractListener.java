@@ -9,13 +9,14 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.material.Directional;
 
 import java.text.NumberFormat;
 
@@ -209,7 +210,8 @@ public class AutoHouseInteractListener implements Listener{
         return OwnerType.COOWNER;
     }
     private static Location[] getHouseSignPositions(Sign interact_block){
-        BlockFace direction = ((Directional)interact_block.getData()).getFacing();
+        Directional interact_blockdata = (Directional)interact_block.getBlockData();
+        BlockFace direction = interact_blockdata.getFacing();
         if(direction.equals(BlockFace.NORTH)){ //northfacing, coowner sign is x-1
             if(interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getType().toString().endsWith("WALL_SIGN")){
                 return new Location[]{interact_block.getWorld().getBlockAt(interact_block.getX()+1, interact_block.getY(), interact_block.getZ()).getLocation(),interact_block.getLocation()};
