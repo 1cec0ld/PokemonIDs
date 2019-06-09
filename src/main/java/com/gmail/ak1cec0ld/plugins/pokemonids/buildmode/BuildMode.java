@@ -80,7 +80,7 @@ public class BuildMode {
         }
     }
     public static boolean inBuildZone(Location location){
-        int[] kanto_gyms = {584,6,350,716,57,608};
+        int[] kanto_gyms = {583,5,350,717,57,608};
         if(kanto_gyms[0] < location.getX() && location.getX() < kanto_gyms[3] &&
                 kanto_gyms[1] < location.getY() && location.getY() < kanto_gyms[4] &&
                 kanto_gyms[2] < location.getZ() && location.getZ() < kanto_gyms[5]){
