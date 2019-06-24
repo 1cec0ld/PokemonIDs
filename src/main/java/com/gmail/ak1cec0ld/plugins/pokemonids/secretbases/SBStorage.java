@@ -15,6 +15,21 @@ class SBStorage {
 
     private static CustomYMLStorage yml;
     private static YamlConfiguration storage;
+    public enum LockState {LOCKED,UNLOCKED,WHITELIST
+
+        public static LockState next(LockState state){
+            switch(state){
+                case LOCKED:
+                    return UNLOCKED;
+                case UNLOCKED:
+                    return WHITELIST;
+                case WHITELIST:
+                    return LOCKED;
+            }
+            return LOCKED;
+        }
+
+    };
 
     SBStorage(){
         yml = new CustomYMLStorage(PokemonIDs.instance(),"PokemonIDs"+ File.separator+"SecretBases.yml");
@@ -66,7 +81,7 @@ class SBStorage {
         storage.set(locationPath+".y",target.getBlockY());
         storage.set(locationPath+".z",target.getBlockZ());
         storage.set(locationPath+".owner",ownerName);
-        storage.set(locationPath+".locked",false);
+        storage.set(locationPath+".locked",LockState.UNLOCKED.toString());
         PokemonIDs.debug("Created new Secretbase from "+base.toString()+" to "+target.toString()+" for "+ownerName);
         yml.save();
         return true;
@@ -79,15 +94,32 @@ class SBStorage {
         storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".owner",newName);
         yml.save();
     }
-    static boolean isLocked(Location base){
-        if(!hasBase(base))return true;
-        return storage.getBoolean(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",true);
+    static LockState getLockstate(Location base){
+        if(!hasBase(base))return LockState.LOCKED;
+        return LockState.valueOf(storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked","LOCKED").toUpperCase());
     }
-    static boolean toggleLock(Location base){
-        if(!hasBase(base))return true;
-        boolean state = storage.getBoolean(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",true);
+    static LockState cycleLock(Location base){
+        if(!hasBase(base))return LockState.LOCKED;
+        LockState state = getLockstate(base);
         storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",!state);
         yml.save();
-        return !state;
+        return LockState.next(state);
+    }
+    static void addWhitelistPlayer(Location base, String name){
+        if(!hasBase(base))return;
+        if(hasWhitelistPlayer(base, name))return;
+        String currentList = storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist","");
+        storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist",currentList+"."+name);
+        yml.save();
+    }
+    static void removeWhitelistPlayer(Location base, String name){
+        if(!hasBase(base))return;
+        if(!hasWhitelistPlayer(base, name))return;
+
+        yml.save();
+    }
+    static boolean hasWhitelistPlayer(Location base, String name){
+        if(!hasBase(base))return false;
+        return storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist","").contains(name);
     }
 }

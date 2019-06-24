@@ -25,6 +25,7 @@ class SBCommand {
         registerRemoveCommand();
         registerChangeOwnerCommand();
         registerShowCommand();
+        registerWhitelistCommand();
     }
 
     private void registerBaseCommand(){
@@ -106,5 +107,8 @@ class SBCommand {
         glow.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 1, false, false));
         glow.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 99999, 1, false, false));
         PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(), glow::remove, 30L);
+    }
+    private void registerWhitelistCommand(){
+
     }
 }
