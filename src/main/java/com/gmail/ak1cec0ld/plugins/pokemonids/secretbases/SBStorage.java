@@ -15,7 +15,7 @@ class SBStorage {
 
     private static CustomYMLStorage yml;
     private static YamlConfiguration storage;
-    public enum LockState {LOCKED,UNLOCKED,WHITELIST
+    public enum LockState {LOCKED,UNLOCKED,WHITELIST;
 
         public static LockState next(LockState state){
             switch(state){
@@ -101,7 +101,7 @@ class SBStorage {
     static LockState cycleLock(Location base){
         if(!hasBase(base))return LockState.LOCKED;
         LockState state = getLockstate(base);
-        storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",!state);
+        storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",LockState.next(state));
         yml.save();
         return LockState.next(state);
     }

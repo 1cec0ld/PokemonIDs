@@ -31,7 +31,7 @@ public class InteractListener implements Listener {
         Location base = event.getClickedBlock().getLocation();
         Player clicker = event.getPlayer();
         if(!event.getPlayer().isSneaking()){
-            if(!SBStorage.isLocked(base)){
+            if(SBStorage.getLockstate(base) != SBStorage.LockState.LOCKED){
                 setMetadata(event.getPlayer());
                 event.getPlayer().teleport(target);
                 PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(),() -> {
@@ -40,7 +40,8 @@ public class InteractListener implements Listener {
             }
         } else if(SBStorage.isOwner(base, clicker.getName()) || clicker.isOp()){
             PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(),() -> {
-                String lockResponse = (SBStorage.toggleLock(base)) ? "You locked the base." : "You unlocked the base.";
+                SBStorage.cycleLock(base);
+                String lockResponse =  "You changed the base to " + SBStorage.getLockstate(base).toString().toLowerCase() + " mode.";
                 PokemonIDs.msgActionBar(clicker,lockResponse, ChatColor.YELLOW);
             },4L);
         }
