@@ -53,7 +53,8 @@ class SBStorage {
     }
 
     static boolean hasBase(Location loc){
-        return storage.contains(loc.getBlockX()+"") &&
+        return loc != null &&
+               storage.contains(loc.getBlockX()+"") &&
                storage.contains(loc.getBlockX()+"."+loc.getBlockY()) &&
                storage.contains(loc.getBlockX()+"."+loc.getBlockY()+"."+loc.getBlockZ());
     }
@@ -115,11 +116,18 @@ class SBStorage {
     static void removeWhitelistPlayer(Location base, String name){
         if(!hasBase(base))return;
         if(!hasWhitelistPlayer(base, name))return;
-
+        String currentList = storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist","");
+        String newList = currentList.replace("."+name,"");
+        storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist", newList);
         yml.save();
     }
     static boolean hasWhitelistPlayer(Location base, String name){
         if(!hasBase(base))return false;
-        return storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist","").contains(name);
+        String whitelist = storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist","");
+
+        return whitelist.toLowerCase().contains(name.toLowerCase());
+    }
+    static String getWhitelist(Location base){
+        return storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist","");
     }
 }

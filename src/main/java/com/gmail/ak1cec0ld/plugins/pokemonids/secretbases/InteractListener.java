@@ -31,17 +31,20 @@ public class InteractListener implements Listener {
         Location base = event.getClickedBlock().getLocation();
         Player clicker = event.getPlayer();
         if(!event.getPlayer().isSneaking()){
-            if(SBStorage.getLockstate(base) != SBStorage.LockState.LOCKED){
-                setMetadata(event.getPlayer());
-                event.getPlayer().teleport(target);
-                PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(),() -> {
-                    PokemonIDs.msgActionBar(clicker,"Use '/go back' to leave!", ChatColor.YELLOW);
-                },4L);
+            if(SBStorage.getLockstate(base) == SBStorage.LockState.LOCKED)return;
+            if(SBStorage.getLockstate(base) == SBStorage.LockState.WHITELIST){
+                if(!SBStorage.hasWhitelistPlayer(base, clicker.getName()))return;
             }
+            setMetadata(event.getPlayer());
+            event.getPlayer().teleport(target);
+            PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(),() -> {
+                PokemonIDs.msgActionBar(clicker,"Use '/go back' to leave!", ChatColor.YELLOW);
+            },4L);
+
         } else if(SBStorage.isOwner(base, clicker.getName()) || clicker.isOp()){
             PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(),() -> {
-                SBStorage.cycleLock(base);
-                String lockResponse =  "You changed the base to " + SBStorage.getLockstate(base).toString().toLowerCase() + " mode.";
+                SBStorage.LockState newState = SBStorage.cycleLock(base);
+                String lockResponse =  "You changed the base to " + newState.toString().toLowerCase() + " mode.";
                 PokemonIDs.msgActionBar(clicker,lockResponse, ChatColor.YELLOW);
             },4L);
         }

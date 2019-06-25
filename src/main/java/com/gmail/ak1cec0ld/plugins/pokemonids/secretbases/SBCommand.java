@@ -91,7 +91,7 @@ class SBCommand {
             for(Map.Entry<String,Location> each : SBStorage.getAllBases().entrySet()){
                 if(each.getKey().equals(name) || player.hasPermission("secretbase.showall")){
                     if(each.getValue().getChunk().isLoaded()) {
-                        spawnGlowBlock(each.getValue());
+                        //spawnGlowBlock(each.getValue());
                         player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
                     } else {
                         player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ() + " - Unloaded Chunk!");
@@ -109,6 +109,33 @@ class SBCommand {
         PokemonIDs.instance().getServer().getScheduler().runTaskLater(PokemonIDs.instance(), glow::remove, 30L);
     }
     private void registerWhitelistCommand(){
-
+        arguments = new LinkedHashMap<>();
+        arguments.put("action",new LiteralArgument("whitelist"));
+        arguments.put("do",new LiteralArgument("add"));
+        arguments.put("target", new PlayerArgument());
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
+            if(!(sender instanceof Player))return;
+            Player player = (Player)sender;
+            Location location = player.getTargetBlock(null,20).getLocation();
+            if(!SBStorage.hasBase(location))return;
+            if(!SBStorage.isOwner(location,player.getName()))return;
+            SBStorage.addWhitelistPlayer(location,((Player)args[0]).getName());
+            player.sendMessage("Added to whitelist!");
+            player.sendMessage("New Whitelist:" + SBStorage.getWhitelist(location));
+        });
+        arguments = new LinkedHashMap<>();
+        arguments.put("action",new LiteralArgument("whitelist"));
+        arguments.put("do",new LiteralArgument("remove"));
+        arguments.put("target", new PlayerArgument());
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
+            if(!(sender instanceof Player))return;
+            Player player = (Player)sender;
+            Location location = player.getTargetBlock(null,20).getLocation();
+            if(!SBStorage.hasBase(location))return;
+            if(!player.isOp() && !SBStorage.isOwner(location,player.getName()))return;
+            SBStorage.removeWhitelistPlayer(location,((Player)args[0]).getName());
+            player.sendMessage("Removed from whitelist!");
+            player.sendMessage("New Whitelist:" + SBStorage.getWhitelist(location));
+        });
     }
 }
