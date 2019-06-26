@@ -104,7 +104,7 @@ class SBStorage {
     static LockState cycleLock(Location base){
         if(!hasBase(base))return LockState.LOCKED;
         LockState state = getLockstate(base);
-        storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",LockState.next(state));
+        storage.set(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".locked",LockState.next(state).toString());
         yml.save();
         return LockState.next(state);
     }
