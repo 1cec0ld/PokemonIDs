@@ -109,7 +109,10 @@ public class FlyCommandManager implements CommandExecutor{
                 Material.IRON_BARS,
                 Material.FIRE,
                 Material.VINE,
-                Material.LADDER));
+                Material.LADDER,
+                Material.END_ROD,
+                Material.WATER,
+                Material.LAVA));
         int i = player.getEyeLocation().getBlockX();
         int k = player.getEyeLocation().getBlockZ();
         for(int j = player.getEyeLocation().getBlockY(); j < player.getWorld().getMaxHeight(); j++){

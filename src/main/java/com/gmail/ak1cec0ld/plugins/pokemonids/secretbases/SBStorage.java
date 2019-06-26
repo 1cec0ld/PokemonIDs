@@ -15,13 +15,15 @@ class SBStorage {
 
     private static CustomYMLStorage yml;
     private static YamlConfiguration storage;
-    public enum LockState {LOCKED,UNLOCKED,WHITELIST;
+    public enum LockState {LOCKED,UNLOCKED,WHITELIST,FALSE,TRUE;
 
         public static LockState next(LockState state){
             switch(state){
                 case LOCKED:
+                case TRUE:
                     return UNLOCKED;
                 case UNLOCKED:
+                case FALSE:
                     return WHITELIST;
                 case WHITELIST:
                     return LOCKED;
@@ -129,5 +131,8 @@ class SBStorage {
     }
     static String getWhitelist(Location base){
         return storage.getString(base.getBlockX()+"."+base.getBlockY()+"."+base.getBlockZ()+".whitelist","");
+    }
+    static void reload(){
+        yml.reload();
     }
 }

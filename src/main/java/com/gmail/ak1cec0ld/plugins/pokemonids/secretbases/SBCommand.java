@@ -26,12 +26,13 @@ class SBCommand {
         registerChangeOwnerCommand();
         registerShowCommand();
         registerWhitelistCommand();
+        registerReloadCommand();
     }
 
     private void registerBaseCommand(){
         arguments = new LinkedHashMap<>();
         CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments,(sender, args)->{
-            sender.sendMessage("/sb show|create|remove|changeowner");
+            sender.sendMessage("/sb show|create|remove|changeowner|whitelist|reload");
         });
     }
 
@@ -118,7 +119,7 @@ class SBCommand {
             Player player = (Player)sender;
             Location location = player.getTargetBlock(null,20).getLocation();
             if(!SBStorage.hasBase(location))return;
-            if(!SBStorage.isOwner(location,player.getName()))return;
+            if(!player.isOp() && !SBStorage.isOwner(location,player.getName()))return;
             SBStorage.addWhitelistPlayer(location,((Player)args[0]).getName());
             player.sendMessage("Added to whitelist!");
             player.sendMessage("New Whitelist:" + SBStorage.getWhitelist(location));
@@ -136,6 +137,16 @@ class SBCommand {
             SBStorage.removeWhitelistPlayer(location,((Player)args[0]).getName());
             player.sendMessage("Removed from whitelist!");
             player.sendMessage("New Whitelist:" + SBStorage.getWhitelist(location));
+        });
+    }
+    private void registerReloadCommand(){
+        arguments = new LinkedHashMap<>();
+        arguments.put("action",new LiteralArgument("reload"));
+        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
+            if(!(sender instanceof Player))return;
+            Player player = (Player)sender;
+            SBStorage.reload();
+            player.sendMessage("Reloaded");
         });
     }
 }

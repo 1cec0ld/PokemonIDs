@@ -31,8 +31,9 @@ public class InteractListener implements Listener {
         Location base = event.getClickedBlock().getLocation();
         Player clicker = event.getPlayer();
         if(!event.getPlayer().isSneaking()){
-            if(SBStorage.getLockstate(base) == SBStorage.LockState.LOCKED)return;
-            if(SBStorage.getLockstate(base) == SBStorage.LockState.WHITELIST){
+            SBStorage.LockState state = SBStorage.getLockstate(base);
+            if(state == SBStorage.LockState.LOCKED || state == SBStorage.LockState.TRUE)return;
+            if(state == SBStorage.LockState.WHITELIST){
                 if(!SBStorage.hasWhitelistPlayer(base, clicker.getName()))return;
             }
             setMetadata(event.getPlayer());
