@@ -143,10 +143,8 @@ class SBCommand {
         arguments = new LinkedHashMap<>();
         arguments.put("action",new LiteralArgument("reload"));
         CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
-            if(!(sender instanceof Player))return;
-            Player player = (Player)sender;
             SBStorage.reload();
-            player.sendMessage("Reloaded");
+            sender.sendMessage("Reloaded");
         });
     }
 }

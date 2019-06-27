@@ -134,5 +134,6 @@ class SBStorage {
     }
     static void reload(){
         yml.reload();
+        storage = yml.getYamlConfiguration();
     }
 }

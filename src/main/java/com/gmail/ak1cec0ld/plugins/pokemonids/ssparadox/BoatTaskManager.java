@@ -64,7 +64,7 @@ class BoatTaskManager {
         for(Player each : from.getWorld().getPlayers()){
             if(!hasTeleported(each) && each.getLocation().distance(from) < 4 && hasSSTicket(each)){
                 each.teleport(to);
-                each.sendMessage("Thank you for using the SS Paradox! Please moveTicketHolders away from the doors to clear the way for other users!");
+                each.sendMessage("Thank you for using the SS Paradox! Please move Ticket Holders away from the doors to clear the way for other users!");
                 markTeleported(each);
             }
         }
