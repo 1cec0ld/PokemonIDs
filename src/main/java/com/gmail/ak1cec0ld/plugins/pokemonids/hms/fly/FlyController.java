@@ -79,7 +79,7 @@ public class FlyController {
         String[] regions = new String[] {"kanto","johto","hoenn", "sinnoh", "unova", "kalos", "alola", "galar"};
         NamespacedKey nsk;
         for(String each : regions){
-            nsk = new NamespacedKey(getPlugin(), "places/"+each+"/"+flypoint);
+            nsk = new NamespacedKey(getPlugin(), "places/"+each.toLowerCase().replaceAll("[^a-z0-9]","")+"/"+flypoint);
             if(Bukkit.getServer().getAdvancement(nsk) != null){
                 return Bukkit.getServer().getAdvancement(nsk);
             }
