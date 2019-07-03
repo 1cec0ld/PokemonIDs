@@ -1,17 +1,17 @@
-main: com.gmail.ak1cec0ld.plugins.pokemonids.PokemonIDs
-name: PokemonIDs
+main: com.gmail.ak1cec0ld.plugins.pokemonserver.Pokemonserver
+name: Pokemonserver
 api-version: 1.13
 version: 2.0.0
 author: 1cec0ld
 description: No Description
-prefix: PIDs
+prefix: PServer
 commands:
   fly:
     description: Helps you fly.
   badges:
     description: Helps manage your badges.
-  pokemonid:
-    description: Manages PokemonIDs the plugin
+  pokemonserver:
+    description: Manages Pokemonserver the plugin
   houses:
     description: Show the Key and List all houses.
   wild:
