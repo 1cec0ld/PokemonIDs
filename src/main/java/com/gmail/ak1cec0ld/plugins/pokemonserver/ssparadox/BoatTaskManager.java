@@ -82,7 +82,7 @@ class BoatTaskManager {
     }
 
     private boolean hasTeleported(Player player) {
-        return player.hasMetadata("tpd") && player.getMetadata("tpd").size() > 0 && player.getMetadata("tbd").get(0).asBoolean();
+        return player.hasMetadata("tpd") && player.getMetadata("tpd").size() > 0 && player.getMetadata("tpd").get(0).asBoolean();
     }
 
     private boolean hasSSTicket(Player player){

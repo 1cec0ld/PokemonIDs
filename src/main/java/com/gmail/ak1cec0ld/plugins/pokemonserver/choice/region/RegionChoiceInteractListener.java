@@ -22,44 +22,37 @@ public class RegionChoiceInteractListener implements Listener{
         
     @EventHandler
     public void onPlayerInteractWithMap(PlayerInteractEntityEvent event){
-        if (inRegion(event.getPlayer().getLocation(),"tutorial")){
-            if (event.getRightClicked().getType().equals(EntityType.ITEM_FRAME)){
-                Player player = event.getPlayer();
-                String uuid = player.getUniqueId().toString();
-                if(PokemonServer.getPlayerStorageManager().getRegionChoice(uuid) < 0){
-                    if(inRegion(event.getRightClicked().getLocation(),"kantochoice")){
-                        event.setCancelled(true);
-                        PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 0);
-                        controller.getTaskManager().constrainPallet(player);
-                    } else if(inRegion(event.getRightClicked().getLocation(),"johtochoice")){
-                        event.setCancelled(true);
-                        PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 1);
-                        controller.getTaskManager().constrainNewbark(player);
-                    } else if(inRegion(event.getRightClicked().getLocation(),"hoennchoice")){
-                        event.setCancelled(true);
-                        PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 2);
-                        controller.getTaskManager().constrainLittleroot(player);
-                    } else if(inRegion(event.getRightClicked().getLocation(),"sinnohchoice")){
-                        event.setCancelled(true);
-                        PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 3);
-                        controller.getTaskManager().constrainSandgem(player);
-                    } else if(inRegion(event.getRightClicked().getLocation(),"unovachoice")){
-                        event.setCancelled(true);
-                        PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 4);
-                        controller.getTaskManager().constrainNuvema(player);
-                    } else if(inRegion(event.getRightClicked().getLocation(),"kaloschoice")){
-                        event.setCancelled(true);
-                        PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 5);
-                        controller.getTaskManager().constrainPallet(player);
-                    } else if(inRegion(event.getRightClicked().getLocation(),"alolachoice")){
-                        event.setCancelled(true);
-                        PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 6);
-                        controller.getTaskManager().constrainPallet(player);
-                    }
-                } else {
-                    SpawnCommandManager.spawn(event.getPlayer());
-                }
-            }
+        if(event.getPlayer().isSneaking())return;
+        if (!inRegion(event.getPlayer().getLocation(),"tutorial"))return;
+        if (!event.getRightClicked().getType().equals(EntityType.ITEM_FRAME))return;
+        Player player = event.getPlayer();
+        String uuid = player.getUniqueId().toString();
+        event.setCancelled(true);
+        if(PokemonServer.getPlayerStorageManager().getRegionChoice(uuid) < 0){
+            if(inRegion(event.getRightClicked().getLocation(),"kantochoice")){
+                PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 0);
+                controller.getTaskManager().constrainPallet(player);
+            } else if(inRegion(event.getRightClicked().getLocation(),"johtochoice")){
+                PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 1);
+                controller.getTaskManager().constrainNewbark(player);
+            } else if(inRegion(event.getRightClicked().getLocation(),"hoennchoice")){
+                PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 2);
+                controller.getTaskManager().constrainLittleroot(player);
+            } else if(inRegion(event.getRightClicked().getLocation(),"sinnohchoice")){
+                PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 3);
+                controller.getTaskManager().constrainSandgem(player);
+            }/* else if(inRegion(event.getRightClicked().getLocation(),"unovachoice")){
+                PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 4);
+                controller.getTaskManager().constrainNuvema(player);
+            } else if(inRegion(event.getRightClicked().getLocation(),"kaloschoice")){
+                PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 5);
+                controller.getTaskManager().constrainPallet(player);
+            } else if(inRegion(event.getRightClicked().getLocation(),"alolachoice")){
+                PokemonServer.getPlayerStorageManager().setRegionChoice(uuid, 6);
+                controller.getTaskManager().constrainPallet(player);
+            }*/
+        } else {
+            SpawnCommandManager.spawn(event.getPlayer());
         }
     }
 
