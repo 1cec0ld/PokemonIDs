@@ -11,48 +11,47 @@ import org.bukkit.command.CommandSender;
 import com.gmail.ak1cec0ld.plugins.pokemonserver.autohouse.AutoHouseStorageManager;
 
 public class QuickHomeCommand implements CommandExecutor{
-    QuickHomeController controller;
-    
-    public QuickHomeCommand(QuickHomeController controller){
-        this.controller = controller;
-    }
-    
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(args.length == 1 ){
-            if(args[0].equalsIgnoreCase("list")){
-                listHousesByPage(sender,1);
-            } else {
-                listHousesByCity(sender,args[0]);
-            }
-        } else if(args.length == 2){
-            if(args[0].equalsIgnoreCase("list")){
-                try{
-                    int page = Integer.valueOf(args[1]);
-                    if(page > 0){
-                        listHousesByPage(sender,page);
-                    } else {
+        switch(args.length){
+            case 0:
+                help(sender);
+                break;
+            case 1:
+                if(args[0].equalsIgnoreCase("list")){
+                    listHousesByPage(sender,1);
+                } else {
+                    listHousesByCity(sender,args[0]);
+                }
+                break;
+            case 2:
+                if(args[0].equalsIgnoreCase("list")){
+                    try{
+                        int page = Integer.valueOf(args[1]);
+                        if(page > 0){
+                            listHousesByPage(sender,page);
+                        } else {
+                            sender.sendMessage(ChatColor.DARK_RED+"You didn't use a valid number as your Page selection!");
+                            return true;
+                        }
+                    } catch (NumberFormatException e){
                         sender.sendMessage(ChatColor.DARK_RED+"You didn't use a valid number as your Page selection!");
                         return true;
                     }
-                } catch (NumberFormatException e){
-                    sender.sendMessage(ChatColor.DARK_RED+"You didn't use a valid number as your Page selection!");
-                    return true;
-                }
-            } else if(args[0].equalsIgnoreCase("size")){
-                try{
-                    int size = Integer.valueOf(args[1]);
-                    if(size > 0){
-                        listHousesBySize(sender,size);
-                    } else {
+                } else if(args[0].equalsIgnoreCase("size")){
+                    try{
+                        int size = Integer.valueOf(args[1]);
+                        if(size > 0){
+                            listHousesBySize(sender,size);
+                        } else {
+                            sender.sendMessage(ChatColor.DARK_RED+"You didn't use a valid size!");
+                        }
+                    } catch(NumberFormatException e){
                         sender.sendMessage(ChatColor.DARK_RED+"You didn't use a valid size!");
                     }
-                } catch(NumberFormatException e){
-                    sender.sendMessage(ChatColor.DARK_RED+"You didn't use a valid size!");
                 }
-            }
-        } else {
-            help(sender);
+                break;
         }
         return true;
     }

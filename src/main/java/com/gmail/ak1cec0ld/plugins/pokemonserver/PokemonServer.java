@@ -81,7 +81,7 @@ public class PokemonServer extends JavaPlugin{
         } else {
             new FlyController(this);
             new ChoiceController(this);
-            new QuickHomeController(this);
+            new QuickHomeController();
             new UtilityManager();
         }
         

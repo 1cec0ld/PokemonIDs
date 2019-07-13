@@ -70,7 +70,7 @@ public class FlyController {
             AdvancementProgress avp = player.getAdvancementProgress(a);
             return avp.isDone();
         } else {
-            Bukkit.getLogger().info("Someone tried to fly to "+flypoint+" but advancement was null");
+            Bukkit.getLogger().info(player.getName() + " tried to fly to "+flypoint+" but advancement was null");
         }
         return false;
     }
