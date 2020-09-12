@@ -26,3 +26,7 @@ commands:
     description: BuildGyms you
   sb:
     description: Secretbases you
+  where:
+    description: tells you where
+  holotext:
+    description: holotexts
