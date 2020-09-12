@@ -23,7 +23,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.14.3-SNAPSHOT</version>
+      <version>1.16.3-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -45,12 +45,6 @@
       <version>1.7</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>io.github.jorelali</groupId>
-      <artifactId>commandapi</artifactId>
-      <version>1.8.2</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
   <repositories>
     <repository>
@@ -64,10 +58,6 @@
     <repository>
       <id>vault-repo</id>
       <url>http://nexus.hc.to/content/repositories/pub_releases</url>
-    </repository>
-    <repository>
-      <id>mccommandapi</id>
-      <url>https://raw.githubusercontent.com/JorelAli/1.13-Command-API/mvn-repo/1.13CommandAPI/</url>
     </repository>
   </repositories>
   <build>

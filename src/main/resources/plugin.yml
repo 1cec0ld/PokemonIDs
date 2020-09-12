@@ -20,3 +20,9 @@ commands:
     description: Bring yourself or others to the start of their region.
   pvp:
     description: Brings you to a location known to cause Player Vs Player combat
+  buildmode:
+    description: Buildmodes you
+  buildgym:
+    description: BuildGyms you
+  sb:
+    description: Secretbases you

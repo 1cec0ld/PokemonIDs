@@ -1,45 +1,45 @@
 package com.gmail.ak1cec0ld.plugins.pokemonserver.utility.holotext_command;
 
-import io.github.jorelali.commandapi.api.CommandAPI;
-import io.github.jorelali.commandapi.api.CommandPermission;
-import io.github.jorelali.commandapi.api.arguments.Argument;
-import io.github.jorelali.commandapi.api.arguments.GreedyStringArgument;
+import com.gmail.ak1cec0ld.plugins.pokemonserver.PokemonServer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import java.util.LinkedHashMap;
+import java.util.List;
 
-public class HoloTextCommand {
+public class HoloTextCommand implements TabExecutor {
 
-
-
-    private static String COMMAND_ALIAS = "holotext";
-    private static String[] COMMAND_ALIASES = {"ht"};
-
-    private LinkedHashMap<String, Argument> arguments;
+    private static final String COMMAND_ALIAS = "holotext";
 
     public HoloTextCommand(){
-        registerCommand();
+        PokemonServer.instance().getServer().getPluginCommand(COMMAND_ALIAS).setExecutor(this);
     }
 
-    private void registerCommand(){
-        arguments = new LinkedHashMap<>();
-        arguments.put("text", new GreedyStringArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.fromString("holotext"), COMMAND_ALIASES,arguments, (sender, args) -> {
-            if(!(sender instanceof Player))return;
-            Player player = (Player)sender;
-            Entity spawned = player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-            if(spawned instanceof ArmorStand){
-                ArmorStand armorStand = (ArmorStand)spawned;
-                armorStand.setVisible(false);
-                armorStand.setCustomName(args[0].toString().replace('&','§'));
-                armorStand.setCustomNameVisible(true);
-                armorStand.setGravity(false);
-                armorStand.setInvulnerable(true);
-                player.chat("/data merge entity @e[sort=nearest,type=minecraft:armor_stand,limit=1] {Tags:[\"HoloText\"]}");
-            }
-        });
+    @Override
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+        if(!(commandSender instanceof Player))return false;
+        Player player = (Player)commandSender;
+        Entity spawned = player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
+        String total = String.join(" ", args);
+        if(spawned instanceof ArmorStand){
+            ArmorStand armorStand = (ArmorStand)spawned;
+            armorStand.setVisible(false);
+            armorStand.setCustomName(total.replace('&','§'));
+            armorStand.setCustomNameVisible(true);
+            armorStand.setGravity(false);
+            armorStand.setInvulnerable(true);
+            player.chat("/data merge entity @e[sort=nearest,type=minecraft:armor_stand,limit=1] {Tags:[\"HoloText\"]}");
+        }
+        return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+        return null;
+        //todo some other day
     }
 }

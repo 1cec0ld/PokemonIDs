@@ -15,7 +15,6 @@ import com.gmail.ak1cec0ld.plugins.pokemonserver.quickhome.QuickHomeController;
 import com.gmail.ak1cec0ld.plugins.pokemonserver.secretbases.SBManager;
 import com.gmail.ak1cec0ld.plugins.pokemonserver.ssparadox.BoatController;
 import com.gmail.ak1cec0ld.plugins.pokemonserver.teleports.TeleportsController;
-import com.gmail.ak1cec0ld.plugins.pokemonserver.toggleeffects.ToggleEffects;
 import com.gmail.ak1cec0ld.plugins.pokemonserver.utility.UtilityManager;
 import com.sk89q.squirrelid.Profile;
 import com.sk89q.squirrelid.resolver.HttpRepositoryService;
@@ -62,7 +61,6 @@ public class PokemonServer extends JavaPlugin{
         new BoatController();
         new SBManager();
         new BuildMode();
-        new ToggleEffects();
 
         new MapFun(this);
 
@@ -146,7 +144,7 @@ public class PokemonServer extends JavaPlugin{
 
     public static Player getPlayerFromString(String string) {
         for(Player p : Bukkit.getOnlinePlayers()){
-            if(p.getName().startsWith(string)){
+            if(p.getName().toLowerCase().startsWith(string.toLowerCase())){
                 return p;
             }
         }

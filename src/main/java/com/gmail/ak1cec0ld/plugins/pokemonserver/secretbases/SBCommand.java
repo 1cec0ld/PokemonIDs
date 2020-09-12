@@ -1,106 +1,144 @@
 package com.gmail.ak1cec0ld.plugins.pokemonserver.secretbases;
 
 import com.gmail.ak1cec0ld.plugins.pokemonserver.PokemonServer;
-import io.github.jorelali.commandapi.api.CommandAPI;
-import io.github.jorelali.commandapi.api.CommandPermission;
-import io.github.jorelali.commandapi.api.arguments.*;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.*;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
-class SBCommand {
+class SBCommand implements TabExecutor {
 
-    private static String COMMAND_ALIAS = "sb";
-
-    private LinkedHashMap<String, Argument> arguments;
+    private static final String COMMAND_ALIAS = "sb";
 
     SBCommand(){
-        registerBaseCommand();
-        registerCreateCommand();
-        registerRemoveCommand();
-        registerChangeOwnerCommand();
-        registerShowCommand();
-        registerWhitelistCommand();
-        registerReloadCommand();
+        PokemonServer.instance().getServer().getPluginCommand(COMMAND_ALIAS).setExecutor(this);
     }
 
-    private void registerBaseCommand(){
-        arguments = new LinkedHashMap<>();
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments,(sender, args)->{
-            sender.sendMessage("/sb show|create|remove|changeowner|whitelist|reload");
-        });
+    private void help(CommandSender sender){
+        sender.sendMessage("/sb show|create|remove|changeowner|whitelist|reload");
     }
 
-    private void registerCreateCommand() {
-        arguments = new LinkedHashMap<>();
-        arguments.put("action", new LiteralArgument("create"));
-        arguments.put("owner", new PlayerArgument());
-        arguments.put("destination", new LocationArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,  arguments, (sender, args) -> {
-            if(!(sender instanceof Player))return;
-            if(!sender.hasPermission("secretbase.create"))return;
-            Player player = (Player) sender;
-            Location location = player.getTargetBlock(null, 20).getLocation();
-            if(SBStorage.createBase(location, (Location) args[1], ((Player)args[0]).getName())){
-                PokemonServer.msgActionBar(player, "Created Secret Base", ChatColor.RESET);
-                spawnGlowBlock((Location)args[1]);
-            } else {
-                PokemonServer.msgActionBar(player, "A Base already exists here!", ChatColor.RESET);
-            }
 
-        });
-    }
-    private void registerRemoveCommand(){
-        arguments = new LinkedHashMap<>();
-        arguments.put("action",new LiteralArgument("remove"));
-        CommandAPI.getInstance().register(COMMAND_ALIAS, CommandPermission.NONE,arguments, (sender,args) -> {
-            if(!(sender instanceof Player))return;
-            if(!sender.hasPermission("secretbase.remove"))return;
-            Player player = (Player)sender;
-            Location location = player.getTargetBlock(null,20).getLocation();
-            if(!SBStorage.hasBase(location))return;
-            SBStorage.removeBase(location);
-            PokemonServer.msgActionBar(player,"Removed Secret Base", ChatColor.RESET);
-        });
-    }
-    private void registerChangeOwnerCommand(){
-        arguments = new LinkedHashMap<>();
-        arguments.put("action",new LiteralArgument("changeowner"));
-        arguments.put("new-owner", new PlayerArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
-            if(!(sender instanceof Player))return;
-            if(!sender.hasPermission("secretbase.changeowner"))return;
-            Player player = (Player)sender;
-            Location location = player.getTargetBlock(null,20).getLocation();
-            if(!SBStorage.hasBase(location))return;
-            SBStorage.changeOwner(location,((Player)args[0]).getName());
-            PokemonServer.msgActionBar(player,"Changed owner name", ChatColor.RESET);
-        });
-    }
-    private void registerShowCommand(){
-        arguments = new LinkedHashMap<>();
-        arguments.put("action", new LiteralArgument("show"));
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments,(sender,args) -> {
-            if(!(sender instanceof Player))return;
-            Player player = (Player)sender;
-            String name = player.getName();
-            for(Map.Entry<String,Location> each : SBStorage.getAllBases().entrySet()){
-                if(each.getKey().equals(name) || player.hasPermission("secretbase.showall")){
-                    if(each.getValue().getChunk().isLoaded()) {
-                        //spawnGlowBlock(each.getValue());
-                        player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
-                    } else {
-                        player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ() + " - Unloaded Chunk!");
-                    }
+    @Override
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+        if(!(commandSender instanceof Player))return false;
+        Player player = (Player)commandSender;
+        switch(args.length){
+            case 1:
+                switch(args[0]){
+                    case "reload":
+                        SBStorage.reload();
+                        player.sendMessage("Reloaded");
+                        break;
+                    case "show":
+                        String name = player.getName();
+                        for(Map.Entry<String,Location> each : SBStorage.getAllBases().entrySet()){
+                            if(each.getKey().equals(name) || player.hasPermission("secretbase.showall")){
+                                if(each.getValue().getChunk().isLoaded()) {
+                                    player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ());
+                                } else {
+                                    player.sendMessage(each.getKey() + ": " + each.getValue().getBlockX() + ", " + each.getValue().getBlockY() + ", " + each.getValue().getBlockZ() + " - Unloaded Chunk!");
+                                }
+                            }
+                        }
+                        break;
+                    case "remove":
+                        if(!player.hasPermission("secretbase.remove"))return false;
+                        Location location = player.getTargetBlock(null,20).getLocation();
+                        if(!SBStorage.hasBase(location))return false;
+                        SBStorage.removeBase(location);
+                        PokemonServer.msgActionBar(player,"Removed Secret Base", ChatColor.RESET);
+                        break;
+                    default:
+                        help(player);
                 }
-            }
-        });
+                break;
+            case 2:
+                switch(args[0]){
+                    case "changeowner":
+                        if(!player.hasPermission("secretbase.changeowner"))return false;
+                        Location location = player.getTargetBlock(null,20).getLocation();
+                        if(!SBStorage.hasBase(location))return false;
+                        SBStorage.changeOwner(location,args[1]);
+                        PokemonServer.msgActionBar(player,"Changed owner name", ChatColor.RESET);
+                        break;
+                    default:
+                        help(player);
+                }
+                break;
+            case 3:
+                switch(args[0]){
+                    case "whitelist":
+                        Location location;
+                        switch(args[1]){
+                            case "add":
+                                location = player.getTargetBlock(null,20).getLocation();
+                                if(!SBStorage.hasBase(location))return false;
+                                if(!player.isOp() && !SBStorage.isOwner(location,player.getName()))return false;
+                                SBStorage.addWhitelistPlayer(location,args[2]);
+                                player.sendMessage("Added to whitelist!");
+                                player.sendMessage("New Whitelist:" + SBStorage.getWhitelist(location));
+                                break;
+                            case "remove":
+                                location = player.getTargetBlock(null,20).getLocation();
+                                if(!SBStorage.hasBase(location))return false;
+                                if(!player.isOp() && !SBStorage.isOwner(location,player.getName()))return false;
+                                SBStorage.removeWhitelistPlayer(location,args[2]);
+                                player.sendMessage("Removed from whitelist!");
+                                player.sendMessage("New Whitelist:" + SBStorage.getWhitelist(location));
+                                break;
+                            default:
+                                help(player);
+                        }
+                        break;
+                    default:
+                        help(player);
+                }
+            case 5:
+                switch(args[0]){
+                    case "create":
+                        if(!player.hasPermission("secretbase.create"))return false;
+                        Location location = player.getTargetBlock(null, 20).getLocation();
+                        Location destination;
+                        try{
+                            destination = player.getWorld().getBlockAt(Integer.parseInt(args[2]),
+                                    Integer.parseInt(args[3]),
+                                    Integer.parseInt(args[4])).getLocation();
+                        } catch(NumberFormatException e){
+                            return false;
+                        }
+                        if(SBStorage.createBase(location, destination, args[1])){
+                            PokemonServer.msgActionBar(player, "Created Secret Base", ChatColor.RESET);
+                            spawnGlowBlock(location);
+                        } else {
+                            PokemonServer.msgActionBar(player, "A Base already exists here!", ChatColor.RESET);
+                        }
+                        break;
+                    default:
+                        help(player);
+                }
+                break;
+            default:
+                help(player);
+        }
+        return true;
     }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
+        return null;
+        //todo some other day
+    }
+
     private void spawnGlowBlock(Location where){
         LivingEntity glow = (LivingEntity) where.getWorld().spawnEntity(where, EntityType.SHULKER);
         glow.setAI(false);
@@ -108,43 +146,5 @@ class SBCommand {
         glow.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 1, false, false));
         glow.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 99999, 1, false, false));
         PokemonServer.instance().getServer().getScheduler().runTaskLater(PokemonServer.instance(), glow::remove, 30L);
-    }
-    private void registerWhitelistCommand(){
-        arguments = new LinkedHashMap<>();
-        arguments.put("action",new LiteralArgument("whitelist"));
-        arguments.put("do",new LiteralArgument("add"));
-        arguments.put("target", new PlayerArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
-            if(!(sender instanceof Player))return;
-            Player player = (Player)sender;
-            Location location = player.getTargetBlock(null,20).getLocation();
-            if(!SBStorage.hasBase(location))return;
-            if(!player.isOp() && !SBStorage.isOwner(location,player.getName()))return;
-            SBStorage.addWhitelistPlayer(location,((Player)args[0]).getName());
-            player.sendMessage("Added to whitelist!");
-            player.sendMessage("New Whitelist:" + SBStorage.getWhitelist(location));
-        });
-        arguments = new LinkedHashMap<>();
-        arguments.put("action",new LiteralArgument("whitelist"));
-        arguments.put("do",new LiteralArgument("remove"));
-        arguments.put("target", new PlayerArgument());
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
-            if(!(sender instanceof Player))return;
-            Player player = (Player)sender;
-            Location location = player.getTargetBlock(null,20).getLocation();
-            if(!SBStorage.hasBase(location))return;
-            if(!player.isOp() && !SBStorage.isOwner(location,player.getName()))return;
-            SBStorage.removeWhitelistPlayer(location,((Player)args[0]).getName());
-            player.sendMessage("Removed from whitelist!");
-            player.sendMessage("New Whitelist:" + SBStorage.getWhitelist(location));
-        });
-    }
-    private void registerReloadCommand(){
-        arguments = new LinkedHashMap<>();
-        arguments.put("action",new LiteralArgument("reload"));
-        CommandAPI.getInstance().register(COMMAND_ALIAS,CommandPermission.NONE,arguments, (sender,args) -> {
-            SBStorage.reload();
-            sender.sendMessage("Reloaded");
-        });
     }
 }
